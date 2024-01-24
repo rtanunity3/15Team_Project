@@ -1525,6 +1525,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6253159311f157d4590aa59e1b7f5a53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPhase: 1
+  tanghuluMade: 0
+  highScore: 0
+  score: 0
 --- !u!4 &1099527350
 Transform:
   m_ObjectHideFlags: 0
