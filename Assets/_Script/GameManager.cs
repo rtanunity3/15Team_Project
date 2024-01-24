@@ -7,10 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private int currentPhase = 1;
-    private int tanghuluMade = 0;
-    private int highScore = 0; // 얘는, PlayerPrefs 또는 json으로 저장한거에서 불러오는 내용으로 초기화?
-    private int score = 0;
+    public int currentPhase = 1;
+    public int tanghuluMade = 0;
+    public int highScore = 0; // 얘는, PlayerPrefs 또는 json으로 저장한거에서 불러오는 내용으로 초기화?
+    public int score = 0;
 
     // 데이터나 기타 변수 작성
 
