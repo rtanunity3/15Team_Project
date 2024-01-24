@@ -2,10 +2,10 @@
 
 ## 역할분담
 
-김동환 : -  
-권순성 : -  
-이도현 : 테스트 브런치
-정지엽 : 테스트 브런치
+김동환 : PM , Scene구성  
+권순성 : Plyaer, Fruit, FruitManager  
+이도현 : GameManager  
+정지엽 : ButtonManager, SoundManager  
 
 
 ## Git 커밋 규칙
