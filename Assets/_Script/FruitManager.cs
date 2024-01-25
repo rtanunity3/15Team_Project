@@ -53,17 +53,17 @@ public class FruitManager : MonoBehaviour
 
         int randomFruitIndex;
         // 일단 임시로 시간으로 바뀌에 함
-        if (elapsedTime < 5f)
+        switch (GameManager.Instance.currentPhase)
         {
-            randomFruitIndex = Random.Range(0, fruitsRandomMax);
-        }
-        else if (elapsedTime < 10f)
-        {
-            randomFruitIndex = Random.Range(0, fruitsRandomMax + 1);
-        }
-        else
-        {
-            randomFruitIndex = Random.Range(0, fruitsRandomMax + 2);
+            case 2:
+                randomFruitIndex = Random.Range(0, fruitsRandomMax + 1);
+                break;
+            case 3:
+                randomFruitIndex = Random.Range(0, fruitsRandomMax + 2);
+                break;
+            default:
+                randomFruitIndex = Random.Range(0, fruitsRandomMax);
+                break;
         }
 
         // 과일 생성
