@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum FruitsType
@@ -19,7 +17,14 @@ public enum FruitsType
 public class FruitManager : MonoBehaviour
 {
     [SerializeField] private GameObject stick;
-    //[SerializeField] 
+    [SerializeField] private GameObject[] fruit;
+
+    private float spawnInterval = 0.4f;
+    private ObjectPool objectPool;
+    private int fruitsRandomMax = 5;
+
+
+    private float elapsedTime; // 경과 시간. 일단 시간으로 체크해서 수량 증가
 
     private void Awake()
     {
@@ -30,14 +35,44 @@ public class FruitManager : MonoBehaviour
         }
     }
 
-
-    void Start()
+    private void Start()
     {
+        objectPool = GetComponent<ObjectPool>();
 
+        InvokeRepeating(nameof(SpawnFruit), 0f, spawnInterval);
     }
 
-    void Update()
+    private void SpawnFruit()
     {
+        // 랜덤 좌표
+        float randomX = Random.Range(-3, 3);
+        float randomY = Random.Range(5, 7);
 
+        // 생성위치
+        Vector3 spawnPosition = new Vector3(randomX, randomY, 0f);
+
+        int randomFruitIndex;
+        // 일단 임시로 시간으로 바뀌에 함
+        if (elapsedTime < 5f)
+        {
+            randomFruitIndex = Random.Range(0, fruitsRandomMax);
+        }
+        else if (elapsedTime < 10f)
+        {
+            randomFruitIndex = Random.Range(0, fruitsRandomMax + 1);
+        }
+        else
+        {
+            randomFruitIndex = Random.Range(0, fruitsRandomMax + 2);
+        }
+
+        // 과일 생성
+        Instantiate(fruit[randomFruitIndex], spawnPosition, Quaternion.identity);
+    }
+
+    private void Update()
+    {
+        // 경과 시간 측정
+        elapsedTime += Time.deltaTime;
     }
 }

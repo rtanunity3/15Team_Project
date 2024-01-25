@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public void OnAim(InputValue value)
     {
         Vector2 targetPos = _camera.ScreenToWorldPoint(value.Get<Vector2>());
+        //Debug.Log(targetPos);
         targetPos.y = fixedYPosition; // y축 고정
         if (targetPos != lastMousePosition)
         {

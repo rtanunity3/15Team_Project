@@ -3176,6 +3176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1713063433}
   - component: {fileID: 1713063432}
+  - component: {fileID: 1713063434}
   m_Layer: 0
   m_Name: FruitManager
   m_TagString: Untagged
@@ -3196,6 +3197,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stick: {fileID: 2876222487670088078, guid: 33a85ad44c87bcb40afd44e73010966d, type: 3}
+  fruit:
+  - {fileID: 1230613128980675943, guid: e4d1abaf103569a45bbf22409bf4ba40, type: 3}
+  - {fileID: 1230613128980675943, guid: 90b3ac937b643d14c98c685848ffe165, type: 3}
+  - {fileID: 1230613128980675943, guid: cb29fcd4a076b05448609eeacadcfa61, type: 3}
+  - {fileID: 1230613128980675943, guid: f71630db2f1343a41a03b4b8f408a0fb, type: 3}
+  - {fileID: 1230613128980675943, guid: 3036bc84987f1b14492c4f83a3b80227, type: 3}
+  - {fileID: 1230613128980675943, guid: 24730b2acde454c43a9fd88dc502e2ec, type: 3}
+  - {fileID: 1230613128980675943, guid: 91d8331ce0176f84e946820ed58d92b7, type: 3}
 --- !u!4 &1713063433
 Transform:
   m_ObjectHideFlags: 0
@@ -3211,6 +3220,22 @@ Transform:
   m_Father: {fileID: 1287246233}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1713063434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713063431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85e9fd2ebdd75c41a76500c26d849ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Fruits
+    prefab: {fileID: 1230613128980675943, guid: e4d1abaf103569a45bbf22409bf4ba40, type: 3}
+    size: 20
 --- !u!1 &1749738344
 GameObject:
   m_ObjectHideFlags: 0
