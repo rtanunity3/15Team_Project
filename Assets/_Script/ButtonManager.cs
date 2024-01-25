@@ -35,4 +35,8 @@ public class ButtonManager : MonoBehaviour
     {
         GameManager.Instance.RestartGame();
     }
+    public void SettingMenu()
+    {
+        GameManager.Instance.ToggleSettings();
+    }
 }
