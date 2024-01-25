@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     // 패널 참조를 위한 변수
     public GameObject settingsPanel;
     public GameObject pausedPanel;
+    public GameObject scorePanel;
     public GameObject resultPanel;
 
     private void Awake()
@@ -52,7 +53,7 @@ public class UIManager : MonoBehaviour
             GameObject canvasObject = GameObject.Find("Canvas");
             pausedPanel = canvasObject.transform.Find("PauseUI").gameObject;
             settingsPanel = GameObject.Find("SettingUI");
-            resultPanel = canvasObject.transform.Find("ScoreUI").gameObject;
+            resultPanel = canvasObject.transform.Find("ResultUI").gameObject;
         }
 
         // 씬 로드 이벤트 발생할 때마다 초기 상태를 비활성화로 설정
