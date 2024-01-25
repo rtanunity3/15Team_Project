@@ -86,14 +86,14 @@ public class FruitManager : MonoBehaviour
         int phase = GameManager.Instance != null ? GameManager.Instance.currentPhase : 1;
         switch (phase)
         {
+            case 1:
+                randFruitIndex = Random.Range(0, fruitsRandomMax);
+                break;
             case 2:
                 randFruitIndex = Random.Range(0, fruitsRandomMax + 1);
                 break;
-            case 3:
-                randFruitIndex = Random.Range(0, fruitsRandomMax + 2);
-                break;
             default:
-                randFruitIndex = Random.Range(0, fruitsRandomMax);
+                randFruitIndex = Random.Range(0, fruitsRandomMax + 2);
                 break;
         }
 
