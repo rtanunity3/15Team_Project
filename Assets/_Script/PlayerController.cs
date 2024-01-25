@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"충돌 {fruit.type}");
         if (fruit.type == FruitsType.Bomb)
         {
+            fruit.gameObject.SetActive(false); // 폭탄은 무조건 숨기기
             PopFruit();
         }
         else
