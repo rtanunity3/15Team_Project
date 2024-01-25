@@ -10,9 +10,6 @@ public enum FruitsType
     Banana,
     Bomb,
     GoldenApple,
-
-    //grape,
-    //pear,
 }
 
 public class FruitManager : MonoBehaviour
@@ -101,12 +98,7 @@ public class FruitManager : MonoBehaviour
         }
 
 
-        GameObject fruit = GetPooledObject(randFruitIndex);
-        if (fruit == null)
-        {
-            fruit = InstantiateFruit(randFruitIndex);
-        }
-
+        GameObject fruit = GetPooledObject(randFruitIndex) ?? InstantiateFruit(randFruitIndex);
         fruit.transform.position = spawnPosition;
         fruit.SetActive(true);
     }
