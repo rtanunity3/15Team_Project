@@ -79,6 +79,8 @@ public class PlayerController : MonoBehaviour
         {
             // TODO: 완료됐다고 게임 매니저에게 알림
             int[] playerTanghulu = StackToArray(fruitStack);
+            GameManager.Instance.UpdateTanghuluProgress(playerTanghulu);
+
             Debug.Log($"완료 {playerTanghulu.Length}/3");
             foreach (var number in playerTanghulu)
             {
