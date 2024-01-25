@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     private Vector3[] positions; // 프리팹이 생성될 위치
 
     // 데이터나 기타 변수 작성
+    public int PhaseTwo = 4;
+    public int PhaseThree = 7;
 
     private void Awake()
     {
@@ -56,6 +58,13 @@ public class GameManager : MonoBehaviour
     {
         // 게임 상태를 MainMenu로 초기화
         ChangeState(GameState.MainMenu);
+    }
+    private void Start()
+    {
+        // 임시 작성
+        Text highscore = GameObject.Find("HighScore").GetComponent<Text>();
+        highscore.text = "최고점수 : "+GameManager.Instance.highScore.ToString();
+        //UIManager.Instance.setHighScore();
     }
 
     public void ChangeState(GameState newState)
@@ -104,6 +113,7 @@ public class GameManager : MonoBehaviour
 
         // 씬 로딩 완료 후 초기화 작업 수행
         ChangeState(GameState.Playing);
+        UIManager.Instance.setCurrentScore();
         GenerateTargetTanghulu();
     }
 
@@ -221,7 +231,7 @@ public class GameManager : MonoBehaviour
             int fruitIndex = Random.Range(0, maxFruitTypeIndex + 1);
 
             // 선택된 과일이 'Bomb'인 경우 다시 랜덤하게 선택
-            if (FruitsType.Bomb.ToString() == fruitTypes[fruitIndex].ToString())
+            if (FruitsType.Bomb.ToString() == fruitTypes[fruitIndex].ToString() || FruitsType.GoldenApple.ToString() == fruitTypes[fruitIndex].ToString())
             {
                 continue; // 다음 반복으로 넘어가서 다른 과일 선택
             }
@@ -286,7 +296,7 @@ public class GameManager : MonoBehaviour
     {
         tanghuluMade++;
         CalculateAndUpdateScore(playerTanghulu); // 플레이어 탕후루와 목표 탕후루를 비교하고 점수를 반영
-        if (tanghuluMade == 4 || tanghuluMade == 7)
+        if (tanghuluMade == PhaseTwo || tanghuluMade == PhaseThree)
         {
             IncreaseDifficulty(); // 난이도 상승
         }
@@ -319,7 +329,7 @@ public class GameManager : MonoBehaviour
         // playerTanghulu와 targetTanghulu 배열 비교하여 일치하는 인덱스의 갯수 확인
         for (int i = 0; i < 3; i++)
         {
-            if (playerTanghulu[i] == targetTanghulu[i])
+            if (playerTanghulu[i] == targetTanghulu[i] || playerTanghulu[i]==6)
             {
                 matchCount++;
             }
@@ -338,6 +348,7 @@ public class GameManager : MonoBehaviour
                 break;
                 // 일치하는 개수가 0개인 경우 점수 증가 없음
         }
+        UIManager.Instance.setCurrentScore();
     }
 
     // 최고 점수 업데이트 및 저장

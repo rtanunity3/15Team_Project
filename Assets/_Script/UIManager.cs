@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
@@ -10,7 +11,8 @@ public class UIManager : MonoBehaviour
     // 패널 참조를 위한 변수
     public GameObject settingsPanel;
     public GameObject pausedPanel;
-    public GameObject scorePanel;
+    public Text score;
+    public Text highscore;
     public GameObject resultPanel;
 
     private void Awake()
@@ -46,6 +48,8 @@ public class UIManager : MonoBehaviour
         // 로드되는 씬 이름에 따라 UI를 로드
         if (scene.name == "_TitleScene")
         {
+            GameObject canvasObject = GameObject.Find("Canvas");
+            highscore = GameObject.Find("HighScore").GetComponent<Text>();
             settingsPanel = GameObject.Find("SettingUI");
         }
         else if (scene.name == "_MainScene")
@@ -53,6 +57,7 @@ public class UIManager : MonoBehaviour
             GameObject canvasObject = GameObject.Find("Canvas");
             pausedPanel = canvasObject.transform.Find("PauseUI").gameObject;
             settingsPanel = GameObject.Find("SettingUI");
+            score = canvasObject.transform.Find("ScoreUI").transform.Find("Score").GetComponent<Text>();
             resultPanel = canvasObject.transform.Find("ResultUI").gameObject;
         }
 
@@ -104,5 +109,13 @@ public class UIManager : MonoBehaviour
     public void ToggleResultPanel(bool isActive)
     {
         SetPanelActive(resultPanel, isActive);
+    }
+    public void setCurrentScore()
+    {
+        score.text = GameManager.Instance.score.ToString();
+    }
+    public void setHighScore()
+    {
+        highscore.text = GameManager.Instance.highScore.ToString();
     }
 }
