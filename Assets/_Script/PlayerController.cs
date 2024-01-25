@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public void OnAim(InputValue value)
     {
         Vector2 targetPos = _camera.ScreenToWorldPoint(value.Get<Vector2>());
-        //Debug.Log(targetPos);
+        targetPos.x = Mathf.Clamp(targetPos.x, -2.6f, 2.6f);
         targetPos.y = fixedYPosition; // y축 고정
         if (targetPos != lastMousePosition)
         {
@@ -63,7 +63,6 @@ public class PlayerController : MonoBehaviour
         }
 
         Fruit fruit = fruitObj.GetComponent<Fruit>();
-        Debug.Log($"충돌 {fruit.type}");
         if (fruit.type == FruitsType.Bomb)
         {
             fruit.gameObject.SetActive(false); // 폭탄은 무조건 숨기기
@@ -80,12 +79,7 @@ public class PlayerController : MonoBehaviour
             // TODO: 완료됐다고 게임 매니저에게 알림
             int[] playerTanghulu = StackToArray(fruitStack);
             GameManager.Instance.UpdateTanghuluProgress(playerTanghulu);
-
             Debug.Log($"완료 {playerTanghulu.Length}/3");
-            foreach (var number in playerTanghulu)
-            {
-                Debug.Log(number);
-            }
 
             // TODO : 3개 되자마자 빠른속도로 사라진다. 뭔가 만들었다고 이펙트나 딜레이같은것 넣어야할듯
             // 초기화
