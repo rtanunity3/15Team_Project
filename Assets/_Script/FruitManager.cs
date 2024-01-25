@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum FruitsType
@@ -17,17 +18,19 @@ public enum FruitsType
 public class FruitManager : MonoBehaviour
 {
     [SerializeField] private GameObject stick;
-    [SerializeField] private GameObject[] fruit;
+    [SerializeField] private GameObject[] fruitPrefabs;
 
     private float spawnInterval = 0.4f;
-    private ObjectPool objectPool;
     private int fruitsRandomMax = 5;
 
-
-    private float elapsedTime; // 경과 시간. 일단 시간으로 체크해서 수량 증가
+    //private float elapsedTime; // 경과 시간. 일단 시간으로 체크해서 수량 증가
+    private List<GameObject>[] objectPool;
+    private int objectPoolSize = 10; // 과일당 풀 사이즈
 
     private void Awake()
     {
+        InitObjectPool();
+
         // 객체 초기화 및 생성
         if (stick != null && !GameObject.FindGameObjectWithTag(stick.tag))
         {
@@ -37,42 +40,93 @@ public class FruitManager : MonoBehaviour
 
     private void Start()
     {
-        objectPool = GetComponent<ObjectPool>();
-
         InvokeRepeating(nameof(SpawnFruit), 0f, spawnInterval);
+    }
+
+    //private void Update()
+    //{
+    //    // 경과 시간 측정
+    //    elapsedTime += Time.deltaTime;
+    //}
+
+    private void InitObjectPool()
+    {
+        objectPool = new List<GameObject>[fruitPrefabs.Length];
+        Debug.Log($"{fruitPrefabs.Length}");
+
+        // i = enum.FruitsType 과 동일하게
+        for (int i = 0; i < fruitPrefabs.Length; i++)
+        {
+            objectPool[i] = new List<GameObject>();
+
+            for (int j = 0; j < objectPoolSize; j++)
+            {
+                GameObject fruit = InstantiateFruit(i);
+                fruit.SetActive(false);
+                objectPool[i].Add(fruit);
+            }
+        }
+    }
+    private GameObject InstantiateFruit(int fruitIndex)
+    {
+        // 새로운 과일 오브젝트 생성
+        GameObject fruit = Instantiate(fruitPrefabs[fruitIndex]);
+        objectPool[fruitIndex].Add(fruit);
+        return fruit;
     }
 
     private void SpawnFruit()
     {
         // 랜덤 좌표
-        float randomX = Random.Range(-3, 3);
-        float randomY = Random.Range(5, 7);
+        float randX = Random.Range(-3, 3);
+        float randY = Random.Range(5, 7);
 
         // 생성위치
-        Vector3 spawnPosition = new Vector3(randomX, randomY, 0f);
+        Vector3 spawnPosition = new Vector3(randX, randY, 0f);
 
-        int randomFruitIndex;
-        // 일단 임시로 시간으로 바뀌에 함
-        switch (GameManager.Instance.currentPhase)
+        int randFruitIndex;
+
+        int phase = GameManager.Instance != null ? GameManager.Instance.currentPhase : 1;
+        switch (phase)
         {
             case 2:
-                randomFruitIndex = Random.Range(0, fruitsRandomMax + 1);
+                randFruitIndex = Random.Range(0, fruitsRandomMax + 1);
                 break;
             case 3:
-                randomFruitIndex = Random.Range(0, fruitsRandomMax + 2);
+                randFruitIndex = Random.Range(0, fruitsRandomMax + 2);
                 break;
             default:
-                randomFruitIndex = Random.Range(0, fruitsRandomMax);
+                randFruitIndex = Random.Range(0, fruitsRandomMax);
                 break;
         }
 
-        // 과일 생성
-        Instantiate(fruit[randomFruitIndex], spawnPosition, Quaternion.identity);
+
+        GameObject fruit = GetPooledObject(randFruitIndex);
+        if (fruit == null)
+        {
+            fruit = InstantiateFruit(randFruitIndex);
+        }
+
+        fruit.transform.position = spawnPosition;
+        fruit.SetActive(true);
     }
 
-    private void Update()
+    private GameObject GetPooledObject(int fruitIndex)
     {
-        // 경과 시간 측정
-        elapsedTime += Time.deltaTime;
+        if (fruitIndex < 0 || fruitIndex >= objectPool.Length)
+        {
+            Debug.Log($"{fruitIndex} / {objectPool.Length}");
+            return null;
+        }
+
+        for (int i = 0; i < objectPool[fruitIndex].Count; i++)
+        {
+            if (!objectPool[fruitIndex][i].activeInHierarchy)
+            {
+                return objectPool[fruitIndex][i];
+            }
+        }
+        return null;
     }
+
 }

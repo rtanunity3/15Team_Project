@@ -1937,6 +1937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1190365728}
   bgmusic: {fileID: 8300000, guid: e95ffa65c37314548b74c1ae830c107a, type: 3}
+  soundSlider: {fileID: 2102824865}
 --- !u!1 &1211761019
 GameObject:
   m_ObjectHideFlags: 0
@@ -3197,7 +3198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stick: {fileID: 2876222487670088078, guid: 33a85ad44c87bcb40afd44e73010966d, type: 3}
-  fruit:
+  fruitPrefabs:
   - {fileID: 1230613128980675943, guid: e4d1abaf103569a45bbf22409bf4ba40, type: 3}
   - {fileID: 1230613128980675943, guid: 90b3ac937b643d14c98c685848ffe165, type: 3}
   - {fileID: 1230613128980675943, guid: cb29fcd4a076b05448609eeacadcfa61, type: 3}
