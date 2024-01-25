@@ -90,6 +90,11 @@ public class GameManager : MonoBehaviour
         StartDroppingFruits();
         ChangeState(GameState.Playing);
     }
+    // 세팅 버튼이 눌렸을 때, ButtonManager에서 호출(까진 안해도 되지만 일단 마련)
+    public void ToggleSettings()
+    {
+        UIManager.Instance.ToggleSettingsPanel();
+    }
     // 일시정지 버튼이 눌렸을 때, ButtonManager에서 호출
     public void PauseGame()
     {
@@ -122,6 +127,16 @@ public class GameManager : MonoBehaviour
         UpdateHighScore(); // 최고 점수 업데이트 및 저장
         UIManager.Instance.ToggleResultPanel(); // 게임 오버 UI 활성화
         ChangeState(GameState.GameOver);
+    }
+    // 게임 Quit 메서드. 사용 안해도 되지만 일단 마련
+    public void QuitGame()
+    {
+        Application.Quit();
+
+        // 유니티 에디터에서 실행 중인 경우 에디터 플레이 모드 종료
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 
     // MainScene 로드
@@ -180,9 +195,9 @@ public class GameManager : MonoBehaviour
             ChangeState(GameState.GameOver);
         }
     }
-    public void UpdateTanghuluProgress() // 입력 없을 경우, 0,0,0 전달
+    public void UpdateTanghuluProgress() // 매개변수의 전달이 없을 경우, -1,-1,-1 전달
     {
-        UpdateTanghuluProgress(new int[] { 0, 0, 0 });
+        UpdateTanghuluProgress(new int[] { -1, -1, -1 });
     }
 
     // 난이도 상승
