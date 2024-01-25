@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);// root GameObjects 에만 사용 가능하다고 경고 뜨긴 했는데 상관은 없을듯. 경고가 신경쓰이면 오브젝트 서로 분리해도 됨.
         }
         else
         {
@@ -49,9 +49,10 @@ public class UIManager : MonoBehaviour
         }
         else if (scene.name == "_MainScene")
         {
-            pausedPanel = GameObject.Find("PauseUI");
+            GameObject canvasObject = GameObject.Find("Canvas");
+            pausedPanel = canvasObject.transform.Find("PauseUI").gameObject;
             settingsPanel = GameObject.Find("SettingUI");
-            resultPanel = GameObject.Find("ScoreUI");
+            resultPanel = canvasObject.transform.Find("ScoreUI").gameObject;
         }
 
         // 씬 로드 이벤트 발생할 때마다 초기 상태를 비활성화로 설정

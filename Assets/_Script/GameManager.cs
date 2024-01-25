@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     private int maxFruitType = 2;
     int[] targetTanghulu = new int[3];
 
+    [SerializeField] private GameObject fruitPrefab;
+    private Vector3[] positions; // 프리팹이 생성될 위치
+
     // 데이터나 기타 변수 작성
 
     private void Awake()
@@ -86,10 +89,33 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         ResetData();
-        LoadMainScene();
-        StartDroppingFruits();
-        ChangeState(GameState.Playing);
+        StartCoroutine(LoadMainSceneAndInitialize());
     }
+
+    // <<<--- 여기부터 씬 로딩 후에 목표 탕후루 생성을 위한 작업
+    IEnumerator LoadMainSceneAndInitialize()
+    {
+        // 비동기 씬 로딩 시작
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("_MainScene");
+
+        // 로딩 완료까지 대기
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // 씬 로딩 완료 후 초기화 작업 수행
+        ChangeState(GameState.Playing);
+        GenerateTargetTanghulu();
+    }
+
+    // MainScene 비동기 로드
+    public void LoadMainSceneAsync()
+    {
+        StartCoroutine(LoadMainSceneAndInitialize());
+    }
+    // --->>> 여기까지 StartGame() 수행
+
     // 세팅 버튼이 눌렸을 때, ButtonManager에서 호출(까진 안해도 되지만 일단 마련)
     public void ToggleSettings()
     {
@@ -112,7 +138,6 @@ public class GameManager : MonoBehaviour
     {
         ResetData();
         LoadMainScene();
-        StartDroppingFruits();
         ChangeState(GameState.Playing);
     }
     // 메인메뉴로 버튼이 눌렸을 때, ButtonManager에서 호출
@@ -159,13 +184,6 @@ public class GameManager : MonoBehaviour
         score = 0;
     }
 
-    // TODO: 과일 떨구기
-    public void StartDroppingFruits()
-    {
-        // 과일이 떨어지기 시작하는 로직
-        // int currentPhase 에 따라 낙하하는 과일 종류 수에 반영
-    }
-
     // 목표 탕후루 생성 및 표시, TODO: 씬에 보여주기
     public void GenerateTargetTanghulu()
     {
@@ -176,15 +194,39 @@ public class GameManager : MonoBehaviour
             targetTanghulu[i] = Random.Range(minFruitType, maxFruitType + 1);
         }
 
-        // 화면에 표시하는 로직은 별도 UI메서드에 작성하여 여기서 호출
-        // UIManager.Instance.ShowTargetTanghulu(targetTanghulu);
+        // positions 배열이 초기화되지 않은 경우 "TanghuluUI" 기점으로 목표 탕후루를 표시할 위치를 새로 지정
+        if (positions == null || positions.Length == 0)
+        {
+            Transform tanghuluUIPosition = GameObject.Find("TanghuluUI").transform.Find("Image");
+
+            positions = new Vector3[]
+            {
+            new Vector3(tanghuluUIPosition.position.x, tanghuluUIPosition.position.y - 50, tanghuluUIPosition.position.z),
+            new Vector3(tanghuluUIPosition.position.x, tanghuluUIPosition.position.y, tanghuluUIPosition.position.z),
+            new Vector3(tanghuluUIPosition.position.x, tanghuluUIPosition.position.y + 50, tanghuluUIPosition.position.z)
+            };
+        }
+
+        // 프리팹 생성 및 fruitNum 지정
+        for (int i = 0; i < targetTanghulu.Length; i++)
+        {
+            GameObject fruit = Instantiate(fruitPrefab, positions[i], Quaternion.identity);
+            Fruit fruitComponent = fruit.GetComponent<Fruit>();
+
+            if (fruitComponent != null)
+            {
+                // fruitComponent.fruitNum = targetTanghulu[i]; // targetTanghulu 배열의 값으로 fruitNum 설정
+                // fruitComponent의 넘버링만으로 스프라이트를 바꾸기 힘들다면, GameManager에서 작업.
+            }
+        }
     }
 
-    // Player에서 과일 세개 쌓이면 int[3] 매개변수로 넣어 호출 바람. 점수반영, 난이도 관리, 종료 조건 검사 수행
+    // Player에서 과일 세개 쌓이면 매개변수로 넣어 호출 바람. 점수반영, 난이도 관리, 종료 조건 검사 수행
+    // 매개변수 형식에 관해서는 추후 맞춰서 수정
     public void UpdateTanghuluProgress(int[] playerTanghulu)
     {
         tanghuluMade++;
-        CalculateAndUpdateScore(); // 플레이어 탕후루와 목표 탕후루를 비교하고 점수를 반영
+        CalculateAndUpdateScore(playerTanghulu); // 플레이어 탕후루와 목표 탕후루를 비교하고 점수를 반영
         if (tanghuluMade % 4 == 0 || tanghuluMade % 7 == 0)
         {
             IncreaseDifficulty(); // 난이도 상승
@@ -194,6 +236,7 @@ public class GameManager : MonoBehaviour
         {
             ChangeState(GameState.GameOver);
         }
+        GenerateTargetTanghulu();
     }
     public void UpdateTanghuluProgress() // 매개변수의 전달이 없을 경우, -1,-1,-1 전달
     {
@@ -201,20 +244,43 @@ public class GameManager : MonoBehaviour
     }
 
     // 난이도 상승
-    public void IncreaseDifficulty()
+    private void IncreaseDifficulty()
     {
         currentPhase++;
     }
 
     // 점수 계산 및 업데이트
-    public void CalculateAndUpdateScore()
+    private void CalculateAndUpdateScore(int[] playerTanghulu)
     {
         // 점수 계산 및 업데이트 로직
-        score += 1; // 임시 작성
+        int matchCount = 0; // 일치하는 인덱스의 개수를 저장할 변수
+
+        // playerTanghulu와 targetTanghulu 배열 비교하여 일치하는 인덱스의 갯수 확인
+        for (int i = 0; i < 3; i++)
+        {
+            if (playerTanghulu[i] == targetTanghulu[i])
+            {
+                matchCount++;
+            }
+        }
+        // 일치하는 개수에 따른 점수 산정
+        switch (matchCount)
+        {
+            case 1:
+                score += 100; // 1개 일치 시 100점
+                break;
+            case 2:
+                score += 300; // 2개 일치 시 300점
+                break;
+            case 3:
+                score += 600; // 3개 일치 시 600점
+                break;
+                // 일치하는 개수가 0개인 경우 점수 증가 없음
+        }
     }
 
     // 최고 점수 업데이트 및 저장
-    public void UpdateHighScore()
+    private void UpdateHighScore()
     {
         if(score > highScore)
         {
