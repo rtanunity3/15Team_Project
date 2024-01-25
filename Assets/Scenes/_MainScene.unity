@@ -3177,7 +3177,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1713063433}
   - component: {fileID: 1713063432}
-  - component: {fileID: 1713063434}
   m_Layer: 0
   m_Name: FruitManager
   m_TagString: Untagged
@@ -3221,22 +3220,6 @@ Transform:
   m_Father: {fileID: 1287246233}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1713063434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1713063431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a85e9fd2ebdd75c41a76500c26d849ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pools:
-  - tag: Fruits
-    prefab: {fileID: 1230613128980675943, guid: e4d1abaf103569a45bbf22409bf4ba40, type: 3}
-    size: 20
 --- !u!1 &1749738344
 GameObject:
   m_ObjectHideFlags: 0
