@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum GameState
 {
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
     private int maxFruitType = 2;
     int[] targetTanghulu = new int[3];
 
-    [SerializeField] private GameObject fruitPrefab;
+    [SerializeField] private Sprite[] fruitSprites;
     private Vector3[] positions; // 프리팹이 생성될 위치
 
     // 데이터나 기타 변수 작성
@@ -184,42 +185,84 @@ public class GameManager : MonoBehaviour
         score = 0;
     }
 
-    // 목표 탕후루 생성 및 표시, TODO: 씬에 보여주기
+    // 목표 탕후루 생성 및 표시
     public void GenerateTargetTanghulu()
     {
-        // 랜덤한 과일 {currentPhase + 2}종류를 선택하여 목표 탕후루를 생성하고 표시하는 로직
-        maxFruitType = currentPhase + 1;
-        for (int i = 0; i < targetTanghulu.Length; i++)
+        if (fruitSprites.Length == 0)
         {
-            targetTanghulu[i] = Random.Range(minFruitType, maxFruitType + 1);
+            // FruitsType 열거형의 모든 값 가져오기
+            FruitsType[] fruitTypes = (FruitsType[])System.Enum.GetValues(typeof(FruitsType));
+
+            // fruitSprites 배열을 FruitsType의 길이만큼 초기화
+            fruitSprites = new Sprite[fruitTypes.Length];
+
+            // 각 과일 타입에 해당하는 스프라이트를 Resources 폴더에서 로드
+            for (int i = 0; i < fruitTypes.Length; i++)
+            {
+                string fruitName = fruitTypes[i].ToString();
+                fruitSprites[i] = Resources.Load<Sprite>($"Fruits/{fruitName}");
+                if (fruitSprites[i] == null)
+                {
+                    Debug.LogError($"Resources/Fruits 에서 찾을 수 없음");
+                }
+            }
         }
 
-        // positions 배열이 초기화되지 않은 경우 "TanghuluUI" 기점으로 목표 탕후루를 표시할 위치를 새로 지정
+        // 현재 난이도(Phase)에 따라 사용할 수 있는 과일의 최대 인덱스 설정
+        int maxFruitTypeIndex = Mathf.Min(fruitSprites.Length - 1, currentPhase + 3);
+
+        for (int i = 0; i < targetTanghulu.Length; i++)
+        {
+            // 현재 난이도에 따라 랜덤하게 과일 인덱스를 선택
+            int fruitIndex = Random.Range(0, maxFruitTypeIndex + 1);
+            targetTanghulu[i] = fruitIndex;
+        }
+        
+        // "TanghuluUI" 기점으로 목표 탕후루를 표시할 위치를 지정
         if (positions == null || positions.Length == 0)
         {
             Transform tanghuluUIPosition = GameObject.Find("TanghuluUI").transform.Find("Image");
-
             positions = new Vector3[]
             {
-            new Vector3(tanghuluUIPosition.position.x, tanghuluUIPosition.position.y - 50, tanghuluUIPosition.position.z),
-            new Vector3(tanghuluUIPosition.position.x, tanghuluUIPosition.position.y, tanghuluUIPosition.position.z),
-            new Vector3(tanghuluUIPosition.position.x, tanghuluUIPosition.position.y + 50, tanghuluUIPosition.position.z)
+            new Vector3(tanghuluUIPosition.position.x-380, tanghuluUIPosition.position.y - 60-640, tanghuluUIPosition.position.z),
+            new Vector3(tanghuluUIPosition.position.x-380, tanghuluUIPosition.position.y-640, tanghuluUIPosition.position.z),
+            new Vector3(tanghuluUIPosition.position.x-380, tanghuluUIPosition.position.y + 60-640, tanghuluUIPosition.position.z)
             };
         }
 
-        // 프리팹 생성 및 fruitNum 지정
+        // 캔버스
+        Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+
+        // 선택된 과일 스프라이트를 지정된 위치에 생성
         for (int i = 0; i < targetTanghulu.Length; i++)
         {
-            GameObject fruit = Instantiate(fruitPrefab, positions[i], Quaternion.identity);
-            Fruit fruitComponent = fruit.GetComponent<Fruit>();
+            int fruitIndex = targetTanghulu[i];
+            Sprite fruitSprite = fruitSprites[fruitIndex];
 
-            if (fruitComponent != null)
+            if (fruitSprite != null)
             {
-                // fruitComponent.fruitNum = targetTanghulu[i]; // targetTanghulu 배열의 값으로 fruitNum 설정
-                // fruitComponent의 넘버링만으로 스프라이트를 바꾸기 힘들다면, GameManager에서 작업.
+                GameObject fruitObject = new GameObject($"Fruit_{fruitIndex}");
+                Image fruitImage = fruitObject.AddComponent<Image>();
+
+                // Image 컴포넌트에 과일 스프라이트를 할당
+                fruitImage.sprite = fruitSprite;
+
+                // GameObject를 캔버스의 자식으로 설정
+                fruitObject.transform.SetParent(canvas.transform, false);
+
+                // RectTransform을 사용하여 GameObject의 위치와 크기를 지정
+                RectTransform rectTransform = fruitObject.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = positions[i];
+                rectTransform.sizeDelta = new Vector2(100, 100);
+            }
+            else
+            {
+                Debug.LogError($"{fruitIndex}번 과일 못찾음.");
             }
         }
+
     }
+
 
     // Player에서 과일 세개 쌓이면 매개변수로 넣어 호출 바람. 점수반영, 난이도 관리, 종료 조건 검사 수행
     // 매개변수 형식에 관해서는 추후 맞춰서 수정
