@@ -50,6 +50,7 @@ public class UIManager : MonoBehaviour
         else if (scene.name == "_MainScene")
         {
             pausedPanel = GameObject.Find("PauseUI");
+            settingsPanel = GameObject.Find("SettingUI");
             resultPanel = GameObject.Find("ScoreUI");
         }
 
