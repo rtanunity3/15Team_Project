@@ -61,10 +61,11 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        // 임시 작성
-        Text highscore = GameObject.Find("HighScore").GetComponent<Text>();
-        highscore.text = "최고점수 : "+GameManager.Instance.highScore.ToString();
+        // 임시작성
         //UIManager.Instance.setHighScore();
+
+        // 임시작성 2
+        UIManager.Instance.settingsPanel = GameObject.Find("SettingUI");
     }
 
     public void ChangeState(GameState newState)
@@ -75,7 +76,8 @@ public class GameManager : MonoBehaviour
         switch (currentState)
         {
             case GameState.MainMenu: // 메인 메뉴 로직
-                Time.timeScale = 1; 
+                Time.timeScale = 1;
+                Invoke("displayHighscore", 0.2f);
                 break;
 
             case GameState.Playing: // 게임 시작 로직
@@ -123,6 +125,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadMainSceneAndInitialize());
     }
     // --->>> 여기까지 StartGame() 수행
+
+    public void displayHighscore()
+    {
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        Text highscore = GameObject.Find("HighScore").GetComponent<Text>();
+        highscore.text = "최고점수 : " + highScore.ToString();
+    }
 
     // 세팅 버튼이 눌렸을 때, ButtonManager에서 호출(까진 안해도 되지만 일단 마련)
     public void ToggleSettings()
@@ -361,6 +370,15 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", highScore);
             PlayerPrefs.Save();
         }
+
+        UIManager.Instance.resultScore.text = GameManager.Instance.score.ToString();
+        UIManager.Instance.resultHighScore.text = GameManager.Instance.highScore.ToString();
+    }
+    public void ResetRecord()
+    {
+        PlayerPrefs.DeleteKey("HighScore");
+        highScore = 0;
+        score = 0;
     }
 
 }

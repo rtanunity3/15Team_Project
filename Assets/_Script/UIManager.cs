@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     public Text score;
     public Text highscore;
     public GameObject resultPanel;
+    public Text resultHighScore;
+    public Text resultScore;
 
     private void Awake()
     {
@@ -59,6 +61,8 @@ public class UIManager : MonoBehaviour
             settingsPanel = GameObject.Find("SettingUI");
             score = canvasObject.transform.Find("ScoreUI").transform.Find("Score").GetComponent<Text>();
             resultPanel = canvasObject.transform.Find("ResultUI").gameObject;
+            resultScore = canvasObject.transform.Find("ResultUI").transform.Find("ScoreText").GetComponent<Text>();
+            resultHighScore = canvasObject.transform.Find("ResultUI").transform.Find("HighScoreText").GetComponent<Text>();
         }
 
         // 씬 로드 이벤트 발생할 때마다 초기 상태를 비활성화로 설정
