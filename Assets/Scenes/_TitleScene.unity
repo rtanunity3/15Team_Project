@@ -1060,7 +1060,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsPanel: {fileID: 0}
   pausedPanel: {fileID: 0}
+  score: {fileID: 0}
+  highscore: {fileID: 0}
   resultPanel: {fileID: 0}
+  resultHighScore: {fileID: 0}
+  resultScore: {fileID: 0}
 --- !u!4 &426704043
 Transform:
   m_ObjectHideFlags: 0
@@ -1358,7 +1362,9 @@ MonoBehaviour:
   tanghuluMade: 0
   highScore: 0
   score: 0
-  fruitPrefab: {fileID: 0}
+  fruitSprites: []
+  PhaseTwo: 4
+  PhaseThree: 7
 --- !u!4 &654734439
 Transform:
   m_ObjectHideFlags: 0
