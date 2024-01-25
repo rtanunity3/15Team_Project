@@ -49,7 +49,7 @@ public class FruitManager : MonoBehaviour
     private void InitObjectPool()
     {
         objectPool = new List<GameObject>[fruitPrefabs.Length];
-        Debug.Log($"{fruitPrefabs.Length}");
+        //Debug.Log($"{fruitPrefabs.Length}");
 
         // i = enum.FruitsType 과 동일하게
         for (int i = 0; i < fruitPrefabs.Length; i++)
@@ -75,7 +75,7 @@ public class FruitManager : MonoBehaviour
     private void SpawnFruit()
     {
         // 랜덤 좌표
-        float randX = Random.Range(-3, 3);
+        float randX = Random.Range(-2.8f, 2.8f);
         float randY = Random.Range(5, 7);
 
         // 생성위치
@@ -107,7 +107,7 @@ public class FruitManager : MonoBehaviour
     {
         if (fruitIndex < 0 || fruitIndex >= objectPool.Length)
         {
-            Debug.Log($"{fruitIndex} / {objectPool.Length}");
+            //Debug.Log($"{fruitIndex} / {objectPool.Length}");
             return null;
         }
 
