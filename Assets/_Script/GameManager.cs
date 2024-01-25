@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     private int maxFruitType = 2;
     int[] targetTanghulu = new int[3];
 
+    FruitsType[] fruitTypes;
     [SerializeField] private Sprite[] fruitSprites;
     private Vector3[] positions; // 프리팹이 생성될 위치
 
@@ -191,7 +192,7 @@ public class GameManager : MonoBehaviour
         if (fruitSprites.Length == 0)
         {
             // FruitsType 열거형의 모든 값 가져오기
-            FruitsType[] fruitTypes = (FruitsType[])System.Enum.GetValues(typeof(FruitsType));
+            fruitTypes = (FruitsType[])System.Enum.GetValues(typeof(FruitsType));
 
             // fruitSprites 배열을 FruitsType의 길이만큼 초기화
             fruitSprites = new Sprite[fruitTypes.Length];
@@ -208,30 +209,50 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // 'TargetTanghulu' GameObject를 찾아서 있으면 삭제
+        GameObject existingTarget = GameObject.Find("TargetTanghulu");
+        if (existingTarget != null)
+        {
+            Destroy(existingTarget);
+        }
+
         // 현재 난이도(Phase)에 따라 사용할 수 있는 과일의 최대 인덱스 설정
         int maxFruitTypeIndex = Mathf.Min(fruitSprites.Length - 1, currentPhase + 3);
 
-        for (int i = 0; i < targetTanghulu.Length; i++)
+        for (int i = 0; i < targetTanghulu.Length;)
         {
             // 현재 난이도에 따라 랜덤하게 과일 인덱스를 선택
             int fruitIndex = Random.Range(0, maxFruitTypeIndex + 1);
+
+            // 선택된 과일이 'Bomb'인 경우 다시 랜덤하게 선택
+            if (FruitsType.Bomb.ToString() == fruitTypes[fruitIndex].ToString())
+            {
+                continue; // 다음 반복으로 넘어가서 다른 과일 선택
+            }
+
             targetTanghulu[i] = fruitIndex;
+            i++; // Bomb가 아닌 과일을 배열에 추가하고 인덱스 증가
         }
-        
+        // 캔버스
+        Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        // 'TargetTanghulu' GameObject 생성 및 캔버스의 자식으로 설정
+        GameObject targetTanghuluObject = new GameObject("TargetTanghulu");
+        targetTanghuluObject.transform.SetParent(canvas.transform, false);
+
         // "TanghuluUI" 기점으로 목표 탕후루를 표시할 위치를 지정
+        RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
+        float posX = canvasRectTransform.sizeDelta.x / 2;
+        float posY = canvasRectTransform.sizeDelta.y / 2;
         if (positions == null || positions.Length == 0)
         {
             Transform tanghuluUIPosition = GameObject.Find("TanghuluUI").transform.Find("Image");
             positions = new Vector3[]
             {
-            new Vector3(tanghuluUIPosition.position.x-380, tanghuluUIPosition.position.y - 60-640, tanghuluUIPosition.position.z),
-            new Vector3(tanghuluUIPosition.position.x-380, tanghuluUIPosition.position.y-640, tanghuluUIPosition.position.z),
-            new Vector3(tanghuluUIPosition.position.x-380, tanghuluUIPosition.position.y + 60-640, tanghuluUIPosition.position.z)
+                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - 60 - posY, tanghuluUIPosition.position.z),
+                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY, tanghuluUIPosition.position.z),
+                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y + 60 - posY, tanghuluUIPosition.position.z)
             };
         }
-
-        // 캔버스
-        Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
 
         // 선택된 과일 스프라이트를 지정된 위치에 생성
         for (int i = 0; i < targetTanghulu.Length; i++)
@@ -247,8 +268,8 @@ public class GameManager : MonoBehaviour
                 // Image 컴포넌트에 과일 스프라이트를 할당
                 fruitImage.sprite = fruitSprite;
 
-                // GameObject를 캔버스의 자식으로 설정
-                fruitObject.transform.SetParent(canvas.transform, false);
+                // GameObject를 'TargetTanghulu'의 자식으로 설정
+                fruitObject.transform.SetParent(targetTanghuluObject.transform, false);
 
                 // RectTransform을 사용하여 GameObject의 위치와 크기를 지정
                 RectTransform rectTransform = fruitObject.GetComponent<RectTransform>();
@@ -263,7 +284,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-
     // Player에서 과일 세개 쌓이면 매개변수로 넣어 호출 바람. 점수반영, 난이도 관리, 종료 조건 검사 수행
     // 매개변수 형식에 관해서는 추후 맞춰서 수정
     public void UpdateTanghuluProgress(int[] playerTanghulu)
@@ -277,9 +297,11 @@ public class GameManager : MonoBehaviour
         // 또한 종료 조건 만족 시 결과 관련 메서드
         if (tanghuluMade >= 10)
         {
-            ChangeState(GameState.GameOver);
+            GameOver();
         }
         GenerateTargetTanghulu();
+        Debug.Log("현재 점수: " + score);
+        Debug.Log("현재 난이도: " + currentPhase);
     }
     public void UpdateTanghuluProgress() // 매개변수의 전달이 없을 경우, -1,-1,-1 전달
     {
