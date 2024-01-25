@@ -66,23 +66,19 @@ public class GameManager : MonoBehaviour
         switch (currentState)
         {
             case GameState.MainMenu: // 메인 메뉴 로직
-                Time.timeScale = 1; // 타임스케일 정상화
-                // SoundManager.Instance.PlayMainMenuMusic(); // 메인메뉴 배경음악 재생
+                Time.timeScale = 1; 
                 break;
 
             case GameState.Playing: // 게임 시작 로직
-                Time.timeScale = 1; // 타임스케일 정상화
-                // SoundManager.Instance.PlayGameMusic(); // 현재 사운드가 게임중 사운드가 아니라면 게임중 사운드로 전환, (희망사항)배속 x1
+                Time.timeScale = 1; 
                 break;
 
             case GameState.Paused: // 일시 정지 관련 로직
-                Time.timeScale = 0; // 타임스케일 일시정지
-                // SoundManager.Instance.PauseMusic(); // (희망사항) 필요 시 배경음악 일시 정지 또는 볼륨 감소
+                Time.timeScale = 0; 
                 break;
 
             case GameState.GameOver: // 게임 종료 관련 로직
                 Time.timeScale = 0; // (필요 시 조율) 타임스케일 일시정지
-                // SoundManager.Instance.PlayGameOverSound(); // 게임 오버 사운드 재생
                 break;
         }
     }
@@ -290,7 +286,7 @@ public class GameManager : MonoBehaviour
     {
         tanghuluMade++;
         CalculateAndUpdateScore(playerTanghulu); // 플레이어 탕후루와 목표 탕후루를 비교하고 점수를 반영
-        if (tanghuluMade % 4 == 0 || tanghuluMade % 7 == 0)
+        if (tanghuluMade == 4 || tanghuluMade == 7)
         {
             IncreaseDifficulty(); // 난이도 상승
         }
