@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class Fruit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // 프리펩 하나로 해서 세팅하려했으나
+    // 과일 종류별로 프리펩을 만드는게 오버헤드가 적은것 같아 프리펩으로 해결
+
+    private void Update()
     {
-        
+
+        if (gameObject.transform.position.y < -8)
+        {
+            gameObject.SetActive(false);
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-    // 충돌처리
-
-
 }
