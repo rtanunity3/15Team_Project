@@ -9,13 +9,15 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject[] fruitsOnStick;
     [SerializeField] private float moveSpeed = 10f;
-    private float fixedYPosition = -4f;
     private Rigidbody2D _rigidbody;
 
     private Vector2 lastMousePosition; // 마우스 마지막 위치
+    private const float fixedYPosition = -4f;
     private float arrivalThreshold = 0.1f; // 이동정지를 위한 마우스 최소거리
 
     Stack<Fruit> fruitStack = new Stack<Fruit>(); // 꽂힌 과일. 폭탄맞으면 후열부터 삭제
+    private const int maxFruitCount = 3;
+    private const int zero = 0;
 
     private void Awake()
     {
@@ -74,12 +76,11 @@ public class PlayerController : MonoBehaviour
         }
 
         // 스택이 풀로 차면 완료됐다고 알리고 막대초기화
-        if (fruitStack.Count == 3)
+        if (fruitStack.Count == maxFruitCount)
         {
-            // TODO: 완료됐다고 게임 매니저에게 알림
             int[] playerTanghulu = StackToArray(fruitStack);
             GameManager.Instance.UpdateTanghuluProgress(playerTanghulu);
-            Debug.Log($"완료 {playerTanghulu.Length}/3");
+            Debug.Log($"완료 {playerTanghulu.Length}/{maxFruitCount}");
 
             // TODO : 3개 되자마자 빠른속도로 사라진다. 뭔가 만들었다고 이펙트나 딜레이같은것 넣어야할듯
             // 초기화
@@ -99,7 +100,7 @@ public class PlayerController : MonoBehaviour
     private void PopFruit()
     {
         // NOTE: 아무것도 없는 경우 효과만 나오고 실제 데이터변화는 없음
-        if (fruitStack.Count > 0)
+        if (fruitStack.Count > zero)
         {
             // 스틱에서 마지막꺼 비활성화
             fruitsOnStick[fruitStack.Count - 1].SetActive(false);
@@ -110,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
     private void PushFruit(Fruit fruit)
     {
-        if (fruitStack.Count < 3)
+        if (fruitStack.Count < maxFruitCount)
         {
             fruit.gameObject.SetActive(false); // 떨어지던것 숨기고
             fruitStack.Push(fruit);
@@ -124,8 +125,8 @@ public class PlayerController : MonoBehaviour
     private int[] StackToArray(Stack<Fruit> stack)
     {
         // 스택의 크기만큼 배열 생성
-        int[] array = new int[3];
-        for (int i = 2; i >= 0; i--)
+        int[] array = new int[maxFruitCount];
+        for (int i = 2; i >= zero; i--)
         {
             array[i] = (int)stack.Pop().type;
         }

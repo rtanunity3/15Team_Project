@@ -16,13 +16,11 @@ public class FruitManager : MonoBehaviour
 {
     [SerializeField] private GameObject stick;
     [SerializeField] private GameObject[] fruitPrefabs;
-
-    private float spawnInterval = 0.4f;
-    private int fruitsRandomMax = 5;
-
-    //private float elapsedTime; // 경과 시간. 일단 시간으로 체크해서 수량 증가
     private List<GameObject>[] objectPool;
-    private int objectPoolSize = 10; // 과일당 풀 사이즈
+    private const int objectPoolSize = 7; // 과일당 풀 사이즈
+    private const float spawnInterval = 0.4f;
+    private const float fixedYPosition = -4f;
+    private const int zero = 0;
 
     private void Awake()
     {
@@ -31,32 +29,25 @@ public class FruitManager : MonoBehaviour
         // 객체 초기화 및 생성
         if (stick != null && !GameObject.FindGameObjectWithTag(stick.tag))
         {
-            Instantiate(stick, new Vector2(0, -4), Quaternion.identity);
+            Instantiate(stick, new Vector2(zero, fixedYPosition), Quaternion.identity);
         }
     }
 
     private void Start()
     {
-        InvokeRepeating(nameof(SpawnFruit), 0f, spawnInterval);
+        InvokeRepeating(nameof(SpawnFruit), zero, spawnInterval);
     }
-
-    //private void Update()
-    //{
-    //    // 경과 시간 측정
-    //    elapsedTime += Time.deltaTime;
-    //}
 
     private void InitObjectPool()
     {
         objectPool = new List<GameObject>[fruitPrefabs.Length];
-        //Debug.Log($"{fruitPrefabs.Length}");
 
         // i = enum.FruitsType 과 동일하게
-        for (int i = 0; i < fruitPrefabs.Length; i++)
+        for (int i = zero; i < fruitPrefabs.Length; i++)
         {
             objectPool[i] = new List<GameObject>();
 
-            for (int j = 0; j < objectPoolSize; j++)
+            for (int j = zero; j < objectPoolSize; j++)
             {
                 GameObject fruit = InstantiateFruit(i);
                 fruit.SetActive(false);
@@ -79,7 +70,7 @@ public class FruitManager : MonoBehaviour
         float randY = Random.Range(5, 7);
 
         // 생성위치
-        Vector3 spawnPosition = new Vector3(randX, randY, 0f);
+        Vector3 spawnPosition = new Vector3(randX, randY, zero);
 
         int randFruitIndex;
 
@@ -87,16 +78,15 @@ public class FruitManager : MonoBehaviour
         switch (phase)
         {
             case 1:
-                randFruitIndex = Random.Range(0, fruitsRandomMax);
+                randFruitIndex = Random.Range(zero, 5);
                 break;
             case 2:
-                randFruitIndex = Random.Range(0, fruitsRandomMax + 1);
+                randFruitIndex = Random.Range(zero, 6);
                 break;
             default:
-                randFruitIndex = Random.Range(0, fruitsRandomMax + 2);
+                randFruitIndex = Random.Range(zero, 7);
                 break;
         }
-
 
         GameObject fruit = GetPooledObject(randFruitIndex) ?? InstantiateFruit(randFruitIndex);
         fruit.transform.position = spawnPosition;
@@ -105,13 +95,12 @@ public class FruitManager : MonoBehaviour
 
     private GameObject GetPooledObject(int fruitIndex)
     {
-        if (fruitIndex < 0 || fruitIndex >= objectPool.Length)
+        if (fruitIndex < zero || fruitIndex >= objectPool.Length)
         {
-            //Debug.Log($"{fruitIndex} / {objectPool.Length}");
             return null;
         }
 
-        for (int i = 0; i < objectPool[fruitIndex].Count; i++)
+        for (int i = zero; i < objectPool[fruitIndex].Count; i++)
         {
             if (!objectPool[fruitIndex][i].activeInHierarchy)
             {
