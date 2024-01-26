@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     public float BGMSound = 0.1f; // 게임 배경음
     public float PlaySound = 0.1f; // 게임 효과음
 
+    public float limitTime = 60f;   // 게임 제한시간
+
     private void Awake()
     {
         // 싱글톤 구현
