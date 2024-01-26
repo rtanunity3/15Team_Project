@@ -47,20 +47,22 @@ public class FruitManager : MonoBehaviour
     IEnumerator CountdownCoroutine()
     {
         float countdownTime = 3f; // 남은 시간
-        while (countdownTime > 0)
+        while (countdownTime >= 0)
         {
             if (countdownText != null)
             {
                 countdownText.text = countdownTime.ToString("F0");
+            }
+            if(countdownTime == 0)
+            {
+                countdownText.text = "GO!!";
             }
             yield return new WaitForSeconds(1f); // 1초 대기
             countdownTime -= 1f; // 남은 시간 감소
         }
 
         // TODO: UI 작업 따라서 변경
-        countdownText.text = "목표";
-        //countdownText.gameObject.SetActive(false);
-
+        countdownText.gameObject.SetActive(false);
 
         // 게임 실행
         InvokeRepeating(nameof(SpawnFruit), zero, spawnInterval);
