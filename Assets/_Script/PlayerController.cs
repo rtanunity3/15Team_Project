@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,6 +17,8 @@ public class PlayerController : MonoBehaviour
     Stack<Fruit> fruitStack = new Stack<Fruit>(); // 꽂힌 과일. 폭탄맞으면 후열부터 삭제
     private const int maxFruitCount = 3;
     private const int zero = 0;
+
+    private const int penaltyScore = -100;
 
     private void Awake()
     {
@@ -102,13 +103,16 @@ public class PlayerController : MonoBehaviour
 
     private void PopFruit()
     {
-        // NOTE: 아무것도 없는 경우 효과만 나오고 실제 데이터변화는 없음
         if (fruitStack.Count > zero)
         {
             // 스틱에서 마지막꺼 비활성화
             fruitsOnStick[fruitStack.Count - 1].SetActive(false);
-
             fruitStack.Pop();
+        }
+        else
+        {
+            // 빈 막대기에 폭탄이 들어오는 경우 점수 하락
+            GameManager.Instance.AddScore(penaltyScore);
         }
     }
 

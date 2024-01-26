@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -80,11 +77,11 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.Playing: // 게임 시작 로직
-                Time.timeScale = 1; 
+                Time.timeScale = 1;
                 break;
 
             case GameState.Paused: // 일시 정지 관련 로직
-                Time.timeScale = 0; 
+                Time.timeScale = 0;
                 break;
 
             case GameState.GameOver: // 게임 종료 관련 로직
@@ -176,9 +173,9 @@ public class GameManager : MonoBehaviour
         Application.Quit();
 
         // 유니티 에디터에서 실행 중인 경우 에디터 플레이 모드 종료
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#endif
     }
 
     // MainScene 로드
@@ -339,7 +336,7 @@ public class GameManager : MonoBehaviour
         // playerTanghulu와 targetTanghulu 배열 비교하여 일치하는 인덱스의 갯수 확인
         for (int i = 0; i < 3; i++)
         {
-            if (playerTanghulu[i] == targetTanghulu[i] || playerTanghulu[i]==6)
+            if (playerTanghulu[i] == targetTanghulu[i] || playerTanghulu[i] == 6)
             {
                 matchCount++;
             }
@@ -365,7 +362,7 @@ public class GameManager : MonoBehaviour
     // 최고 점수 업데이트 및 저장
     private void UpdateHighScore()
     {
-        if(score > highScore)
+        if (score > highScore)
         {
             highScore = score;
             // 게임 종료시에도 로컬에 저장되도록 하는 메서드
@@ -386,5 +383,12 @@ public class GameManager : MonoBehaviour
     private void TimePause()
     {
         Time.timeScale = 0;
+    }
+
+    public void AddScore(int amount)
+    {
+        score += amount;
+        score = Mathf.Max(score, 0);
+        UIManager.Instance.UpdateMainSceneMenuDisplay();
     }
 }
