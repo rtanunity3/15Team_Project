@@ -11,9 +11,10 @@ public class UIManager : MonoBehaviour
     // 패널 참조를 위한 변수
     public GameObject settingsPanel;
     public GameObject pausedPanel;
+
     public Text score;
     public Text highscore;
-    public Text count;
+    public Text countTanghulu;
 
     public Text resultHighScore;
     public Text resultScore;
@@ -61,8 +62,11 @@ public class UIManager : MonoBehaviour
             GameObject canvasObject = GameObject.Find("Canvas");
             pausedPanel = canvasObject.transform.Find("PauseUI").gameObject;
             settingsPanel = GameObject.Find("SettingUI");
+
             score = canvasObject.transform.Find("Menu").transform.Find("ScoreUI").transform.Find("CurrentScore").GetComponent<Text>();
-            count = canvasObject.transform.Find("Menu").transform.Find("CountUI").transform.Find("CurrentScore").GetComponent<Text>();
+            highscore = canvasObject.transform.Find("Menu").transform.Find("ScoreUI").transform.Find("HighScore").GetComponent<Text>();
+            countTanghulu = canvasObject.transform.Find("Menu").transform.Find("CountUI").transform.Find("CurrentScore").GetComponent<Text>();
+
             resultUI = canvasObject.transform.Find("ResultUI").gameObject.GetComponent<Animator>();
             resultScore = canvasObject.transform.Find("ResultUI").transform.Find("ScoreText").GetComponent<Text>();
             resultHighScore = canvasObject.transform.Find("ResultUI").transform.Find("HighScoreText").GetComponent<Text>();
@@ -113,16 +117,23 @@ public class UIManager : MonoBehaviour
     {
         resultUI.SetTrigger("GameOver");
     }
-    public void setCurrentScore()
+    //public void setCurrentScore()
+    //{
+    //    score.text = "현재 점수 " + GameManager.Instance.score.ToString();
+    //}
+    //public void setResultHighScore()
+    //{
+    //    resultHighScore.text = "최고 점수 " + GameManager.Instance.highScore.ToString();
+    //}
+    //public void setCount(int n)
+    //{
+    //    count.text = "탕후루\n" + n + " / 10";
+    //}
+
+    public void UpdateMainSceneMenuDisplay()
     {
-        score.text = "현재 점수 " + GameManager.Instance.score.ToString();
-    }
-    public void setResultHighScore()
-    {
-        resultHighScore.text = "최고 점수 " + GameManager.Instance.highScore.ToString();
-    }
-    public void setCount(int n)
-    {
-        count.text = "탕후루\n" + n + " / 10";
+        highscore.text = "최고점수 " + GameManager.Instance.highScore.ToString();
+        score.text = "현재점수 " + GameManager.Instance.score.ToString();
+        countTanghulu.text = "탕후루\n" + GameManager.Instance.tanghuluMade.ToString() + " / 10";
     }
 }

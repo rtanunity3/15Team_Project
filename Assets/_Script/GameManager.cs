@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
 
         // 씬 로딩 완료 후 초기화 작업 수행
         ChangeState(GameState.Playing);
-        UIManager.Instance.setCurrentScore();
+        UIManager.Instance.UpdateMainSceneMenuDisplay();
         GenerateTargetTanghulu();
     }
 
@@ -314,8 +314,9 @@ public class GameManager : MonoBehaviour
             GameOver();
         }
         GenerateTargetTanghulu();
-        Debug.Log("현재 점수: " + score);
-        Debug.Log("현재 난이도: " + currentPhase);
+
+        UIManager.Instance.UpdateMainSceneMenuDisplay();
+        Debug.Log("현재 점수: " + score + " / 현재 난이도: " + currentPhase);
     }
     public void UpdateTanghuluProgress() // 매개변수의 전달이 없을 경우, -1,-1,-1 전달
     {
@@ -356,8 +357,8 @@ public class GameManager : MonoBehaviour
                 break;
                 // 일치하는 개수가 0개인 경우 점수 증가 없음
         }
-        UIManager.Instance.setCurrentScore();
-        UIManager.Instance.setCount(tanghuluMade);
+        //UIManager.Instance.setCurrentScore();
+        //UIManager.Instance.setCount(tanghuluMade);
     }
 
     // 최고 점수 업데이트 및 저장
