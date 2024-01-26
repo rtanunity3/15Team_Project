@@ -18,16 +18,22 @@ public class DisplayMainPanel : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.currentState == GameState.Playing)
+        if(GameManager.Instance.currentState == GameState.CountDown)
+        {
+            timer = limitTime;
+            UpdateMainSceneMenuDisplay();
+        }
+        else if (GameManager.Instance.currentState == GameState.Playing)
         {
             timer -= Time.deltaTime;
             timer = Math.Max(timer, 0f);
+            UpdateMainSceneMenuDisplay();
         }
         else
         {
             timer = limitTime;
         }
-        UpdateMainSceneMenuDisplay();
+
         if (timer <= 0f)
         {
             GameManager.Instance.GameOver();
