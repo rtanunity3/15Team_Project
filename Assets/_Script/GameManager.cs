@@ -356,6 +356,7 @@ public class GameManager : MonoBehaviour
                 // 일치하는 개수가 0개인 경우 점수 증가 없음
         }
         UIManager.Instance.setCurrentScore();
+        UIManager.Instance.setCount(tanghuluMade);
     }
 
     // 최고 점수 업데이트 및 저장

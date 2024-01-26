@@ -13,11 +13,12 @@ public class UIManager : MonoBehaviour
     public GameObject pausedPanel;
     public Text score;
     public Text highscore;
+    public Text count;
 
     public Text resultHighScore;
     public Text resultScore;
 
-    [SerializeField] private Animator resultUI;
+    private Animator resultUI;
 
     private void Awake()
     {
@@ -61,6 +62,7 @@ public class UIManager : MonoBehaviour
             pausedPanel = canvasObject.transform.Find("PauseUI").gameObject;
             settingsPanel = GameObject.Find("SettingUI");
             score = canvasObject.transform.Find("Menu").transform.Find("ScoreUI").transform.Find("CurrentScore").GetComponent<Text>();
+            count = canvasObject.transform.Find("Menu").transform.Find("CountUI").transform.Find("CurrentScore").GetComponent<Text>();
             resultUI = canvasObject.transform.Find("ResultUI").gameObject.GetComponent<Animator>();
             resultScore = canvasObject.transform.Find("ResultUI").transform.Find("ScoreText").GetComponent<Text>();
             resultHighScore = canvasObject.transform.Find("ResultUI").transform.Find("HighScoreText").GetComponent<Text>();
@@ -113,10 +115,14 @@ public class UIManager : MonoBehaviour
     }
     public void setCurrentScore()
     {
-        score.text = GameManager.Instance.score.ToString();
+        score.text = "현재 점수 " + GameManager.Instance.score.ToString();
     }
     public void setHighScore()
     {
-        highscore.text = GameManager.Instance.highScore.ToString();
+        highscore.text = "최고 점수 " + GameManager.Instance.highScore.ToString();
+    }
+    public void setCount(int n)
+    {
+        count.text = "탕후루\n" + n + " / 10";
     }
 }
