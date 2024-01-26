@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     int[] targetTanghulu = new int[3];
 
     FruitsType[] fruitTypes;
-    private Sprite[] fruitSprites;
+    [HideInInspector] public Sprite[] fruitSprites;
     private Sprite stickSprites;
     private Vector3[] positions; // 프리팹이 생성될 위치
 
