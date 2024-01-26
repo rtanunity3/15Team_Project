@@ -52,7 +52,6 @@ public class UIManager : MonoBehaviour
         // 로드되는 씬 이름에 따라 UI를 로드
         if (scene.name == "_TitleScene")
         {
-            GameObject canvasObject = GameObject.Find("Canvas");
             highscore = GameObject.Find("HighScore").GetComponent<Text>();
             settingsPanel = GameObject.Find("Canvas").transform.Find("SettingUI").gameObject;
         }
