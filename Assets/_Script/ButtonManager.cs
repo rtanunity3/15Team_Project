@@ -39,4 +39,8 @@ public class ButtonManager : MonoBehaviour
     {
         GameManager.Instance.ToggleSettings();
     }
+    public void ResetRecord()
+    {
+        GameManager.Instance.ResetRecord();
+    }
 }

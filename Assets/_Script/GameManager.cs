@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
     {
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         Text highscore = GameObject.Find("HighScore").GetComponent<Text>();
-        highscore.text = "최고점수 : " + highScore.ToString();
+        highscore.text = $"최고점수 : {highScore}";
     }
 
     // 세팅 버튼이 눌렸을 때, ButtonManager에서 호출(까진 안해도 되지만 일단 마련)
@@ -404,6 +404,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.DeleteKey("HighScore");
         highScore = 0;
         score = 0;
+        Invoke("displayHighscore", 0.2f);
     }
 
     private void TimePause()
