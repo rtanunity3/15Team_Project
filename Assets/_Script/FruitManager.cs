@@ -65,6 +65,7 @@ public class FruitManager : MonoBehaviour
         countdownText.gameObject.SetActive(false);
 
         // 게임 실행
+        GameManager.Instance.ChangeState(GameState.Playing);
         InvokeRepeating(nameof(SpawnFruit), zero, spawnInterval);
     }
 

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public enum GameState
 {
     MainMenu,
+    CountDown,
     Playing,
     Paused,
     GameOver,
@@ -76,6 +77,10 @@ public class GameManager : MonoBehaviour
                 Invoke("displayHighscore", 0.2f);
                 break;
 
+            case GameState.CountDown:
+                Time.timeScale = 1;
+                break;
+
             case GameState.Playing: // 게임 시작 로직
                 Time.timeScale = 1;
                 break;
@@ -110,8 +115,8 @@ public class GameManager : MonoBehaviour
         }
 
         // 씬 로딩 완료 후 초기화 작업 수행
-        ChangeState(GameState.Playing);
-        UIManager.Instance.UpdateMainSceneMenuDisplay();
+        ChangeState(GameState.CountDown);
+        //UIManager.Instance.UpdateMainSceneMenuDisplay();
         GenerateTargetTanghulu();
     }
 
@@ -151,7 +156,7 @@ public class GameManager : MonoBehaviour
     {
         ResetData();
         LoadMainScene();
-        ChangeState(GameState.Playing);
+        ChangeState(GameState.CountDown);
         Invoke("GenerateTargetTanghulu", 0.2f);
     }
     // 메인메뉴로 버튼이 눌렸을 때, ButtonManager에서 호출
@@ -307,13 +312,13 @@ public class GameManager : MonoBehaviour
             IncreaseDifficulty(); // 난이도 상승
         }
         // 또한 종료 조건 만족 시 결과 관련 메서드
-        if (tanghuluMade >= 10)
-        {
-            GameOver();
-        }
+        //if (tanghuluMade >= 10)
+        //{
+        //    GameOver();
+        //}
         GenerateTargetTanghulu();
 
-        UIManager.Instance.UpdateMainSceneMenuDisplay();
+        //UIManager.Instance.UpdateMainSceneMenuDisplay();
         Debug.Log("현재 점수: " + score + " / 현재 난이도: " + currentPhase);
     }
     public void UpdateTanghuluProgress() // 매개변수의 전달이 없을 경우, -1,-1,-1 전달
@@ -389,6 +394,6 @@ public class GameManager : MonoBehaviour
     {
         score += amount;
         score = Mathf.Max(score, 0);
-        UIManager.Instance.UpdateMainSceneMenuDisplay();
+        //UIManager.Instance.UpdateMainSceneMenuDisplay();
     }
 }
