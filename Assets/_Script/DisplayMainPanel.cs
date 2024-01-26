@@ -12,15 +12,13 @@ public class DisplayMainPanel : MonoBehaviour
     [SerializeField] private Text timerText;
     //[SerializeField] private Text countTanghuluText;
 
-    //public bool isStart;
-    public float limitTime=60f;
     private float timer;
 
     void Update()
     {
         if(GameManager.Instance.currentState == GameState.CountDown)
         {
-            timer = limitTime;
+            timer = GameManager.Instance.limitTime;
             UpdateMainSceneMenuDisplay();
         }
         else if (GameManager.Instance.currentState == GameState.Playing)
@@ -29,12 +27,8 @@ public class DisplayMainPanel : MonoBehaviour
             timer = Math.Max(timer, 0f);
             UpdateMainSceneMenuDisplay();
         }
-        else
-        {
-            timer = limitTime;
-        }
 
-        if (timer <= 0f)
+        if (timer <= 0f && GameManager.Instance.currentState == GameState.Playing)
         {
             GameManager.Instance.GameOver();
         }

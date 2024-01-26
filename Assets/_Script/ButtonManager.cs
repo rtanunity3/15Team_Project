@@ -43,4 +43,8 @@ public class ButtonManager : MonoBehaviour
     {
         GameManager.Instance.ResetRecord();
     }
+    public void QuitGame()
+    {
+        GameManager.Instance.QuitGame();
+    }
 }
