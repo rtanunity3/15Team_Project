@@ -155,6 +155,7 @@ public class GameManager : MonoBehaviour
         ResetData();
         LoadMainScene();
         ChangeState(GameState.Playing);
+        Invoke("GenerateTargetTanghulu", 0.2f);
     }
     // 메인메뉴로 버튼이 눌렸을 때, ButtonManager에서 호출
     public void BackMainMenu()
