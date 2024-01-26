@@ -1365,6 +1365,7 @@ MonoBehaviour:
   PhaseThree: 7
   BGMSound: 0.1
   PlaySound: 0.1
+  limitTime: 30
 --- !u!4 &654734439
 Transform:
   m_ObjectHideFlags: 0
@@ -2918,7 +2919,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1732194808}
         m_TargetAssemblyTypeName: ButtonManager, Assembly-CSharp
-        m_MethodName: BackMainMenu
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
