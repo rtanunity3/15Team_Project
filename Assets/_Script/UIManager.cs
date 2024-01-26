@@ -13,9 +13,11 @@ public class UIManager : MonoBehaviour
     public GameObject pausedPanel;
     public Text score;
     public Text highscore;
-    public GameObject resultPanel;
+
     public Text resultHighScore;
     public Text resultScore;
+
+    [SerializeField] private Animator resultUI;
 
     private void Awake()
     {
@@ -59,8 +61,8 @@ public class UIManager : MonoBehaviour
             GameObject canvasObject = GameObject.Find("Canvas");
             pausedPanel = canvasObject.transform.Find("PauseUI").gameObject;
             settingsPanel = GameObject.Find("SettingUI");
-            score = canvasObject.transform.Find("ScoreUI").transform.Find("Score").GetComponent<Text>();
-            resultPanel = canvasObject.transform.Find("ResultUI").gameObject;
+            score = canvasObject.transform.Find("Menu").transform.Find("ScoreUI").transform.Find("CurrentScore").GetComponent<Text>();
+            resultUI = canvasObject.transform.Find("ResultUI").gameObject.GetComponent<Animator>();
             resultScore = canvasObject.transform.Find("ResultUI").transform.Find("ScoreText").GetComponent<Text>();
             resultHighScore = canvasObject.transform.Find("ResultUI").transform.Find("HighScoreText").GetComponent<Text>();
         }
@@ -68,7 +70,7 @@ public class UIManager : MonoBehaviour
         // 씬 로드 이벤트 발생할 때마다 초기 상태를 비활성화로 설정
         SetPanelActive(settingsPanel, false);
         SetPanelActive(pausedPanel, false);
-        SetPanelActive(resultPanel, false);
+
     }
 
     // 패널 활성화/비활성화를 위한 범용 메서드
@@ -108,11 +110,7 @@ public class UIManager : MonoBehaviour
 
     public void ToggleResultPanel()
     {
-        SetPanelActive(resultPanel, !resultPanel.activeSelf);
-    }
-    public void ToggleResultPanel(bool isActive)
-    {
-        SetPanelActive(resultPanel, isActive);
+        resultUI.SetTrigger("GameOver");
     }
     public void setCurrentScore()
     {
