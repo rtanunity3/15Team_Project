@@ -61,11 +61,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        // 임시작성
-        //UIManager.Instance.setHighScore();
 
-        // 임시작성 2
-        UIManager.Instance.settingsPanel = GameObject.Find("SettingUI");
     }
 
     public void ChangeState(GameState newState)

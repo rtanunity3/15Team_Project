@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);// root GameObjects 에만 사용 가능하다고 경고 뜨긴 했는데 상관은 없을듯. 경고가 신경쓰이면 오브젝트 서로 분리해도 됨.
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
         {
@@ -34,7 +35,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDestroy()
@@ -52,9 +52,8 @@ public class UIManager : MonoBehaviour
         // 로드되는 씬 이름에 따라 UI를 로드
         if (scene.name == "_TitleScene")
         {
-            GameObject canvasObject = GameObject.Find("Canvas");
             highscore = GameObject.Find("HighScore").GetComponent<Text>();
-            settingsPanel = GameObject.Find("SettingUI");
+            settingsPanel = GameObject.Find("Canvas").transform.Find("SettingUI").gameObject;
         }
         else if (scene.name == "_MainScene")
         {
