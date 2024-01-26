@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public enum GameState
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     FruitsType[] fruitTypes;
     [SerializeField] private Sprite[] fruitSprites;
+    private Sprite stickSprites;
     private Vector3[] positions; // 프리팹이 생성될 위치
 
     // 데이터나 기타 변수 작성
@@ -206,8 +208,12 @@ public class GameManager : MonoBehaviour
     // 목표 탕후루 생성 및 표시
     public void GenerateTargetTanghulu()
     {
+        // 스프라이트 가져오기
         if (fruitSprites.Length == 0)
         {
+            // 스틱 스프라이트
+            stickSprites = Resources.Load<Sprite>($"Stick/Stick1");
+
             // FruitsType 열거형의 모든 값 가져오기
             fruitTypes = (FruitsType[])System.Enum.GetValues(typeof(FruitsType));
 
@@ -221,7 +227,7 @@ public class GameManager : MonoBehaviour
                 fruitSprites[i] = Resources.Load<Sprite>($"Fruits/{fruitName}");
                 if (fruitSprites[i] == null)
                 {
-                    Debug.LogError($"Resources/Fruits 에서 찾을 수 없음");
+                    Debug.LogError($"Resources/Fruits 에서 {fruitName} 파일을 찾을 수 없음");
                 }
             }
         }
@@ -265,11 +271,26 @@ public class GameManager : MonoBehaviour
             Transform tanghuluUIPosition = GameObject.Find("TanghuluUI").transform.Find("Image");
             positions = new Vector3[]
             {
-                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - 60 - posY, tanghuluUIPosition.position.z),
-                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY, tanghuluUIPosition.position.z),
-                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y + 60 - posY, tanghuluUIPosition.position.z)
+                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY - 50, tanghuluUIPosition.position.z),
+                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY + 10, tanghuluUIPosition.position.z),
+                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY + 70, tanghuluUIPosition.position.z)
             };
         }
+
+        // 스틱 스프라이트 생성
+        GameObject stickObject = new GameObject($"Stick");
+        Image stickImage = stickObject.AddComponent<Image>();
+        stickImage.sprite = stickSprites;
+        stickObject.transform.SetParent(targetTanghuluObject.transform, false);
+        RectTransform stickRectTransform = stickObject.GetComponent<RectTransform>();
+        stickRectTransform.anchoredPosition = positions[0];
+        // 스틱 이미지의 너비와 높이 비율 계산하여 사이즈에 반영
+        float originalWidth = stickImage.sprite.rect.width;
+        float originalHeight = stickImage.sprite.rect.height;
+        float desiredHeight = 140f;
+        float scale = desiredHeight / originalHeight;
+        float desiredWidth = originalWidth * scale;
+        stickRectTransform.sizeDelta = new Vector2(desiredWidth, desiredHeight);
 
         // 선택된 과일 스프라이트를 지정된 위치에 생성
         for (int i = 0; i < targetTanghulu.Length; i++)
