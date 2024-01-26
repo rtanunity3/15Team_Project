@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -166,7 +167,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateHighScore(); // 최고 점수 업데이트 및 저장
         UIManager.Instance.ToggleResultPanel(); // 게임 오버 UI 활성화
-        Invoke("TimePause", 1f);
+        ChangeState(GameState.GameOver);
     }
     // 게임 Quit 메서드. 사용 안해도 되지만 일단 마련
     public void QuitGame()
