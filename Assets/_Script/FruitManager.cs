@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum FruitsType
 {
@@ -16,6 +18,8 @@ public class FruitManager : MonoBehaviour
 {
     [SerializeField] private GameObject stick;
     [SerializeField] private GameObject[] fruitPrefabs;
+    [SerializeField] private Text countdownText;
+
     private List<GameObject>[] objectPool;
     private const int objectPoolSize = 7; // 과일당 풀 사이즈
     private const float spawnInterval = 0.4f;
@@ -35,6 +39,27 @@ public class FruitManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(CountdownCoroutine());
+    }
+
+    IEnumerator CountdownCoroutine()
+    {
+        float countdownTime = 3f; // 남은 시간
+        while (countdownTime > 0)
+        {
+            if (countdownText != null)
+            {
+                countdownText.text = countdownTime.ToString("F0");
+            }
+            yield return new WaitForSeconds(1f); // 1초 대기
+            countdownTime -= 1f; // 남은 시간 감소
+        }
+
+        // TODO: UI 작업 따라서 변경
+        countdownText.text = "목표";
+
+
+        // 게임 실행
         InvokeRepeating(nameof(SpawnFruit), zero, spawnInterval);
     }
 
