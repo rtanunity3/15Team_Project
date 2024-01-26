@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class PlayerController : MonoBehaviour
     private const int zero = 0;
 
     private const int penaltyScore = -100;
+
+    [SerializeField] private GameObject fruitParticle;
+    [SerializeField] private GameObject bombParticle;
 
     private void Awake()
     {
@@ -69,11 +73,15 @@ public class PlayerController : MonoBehaviour
         if (fruit.type == FruitsType.Bomb)
         {
             fruit.gameObject.SetActive(false); // 폭탄은 무조건 숨기기
+            bombParticle.SetActive(true);
             PopFruit();
+            Invoke("BombParticleActive", .3f);
         }
         else
         {
+            fruitParticle.SetActive(true);
             PushFruit(fruit);
+            Invoke("FruitParticleActive", .3f);
         }
 
         // 스택이 풀로 차면 완료됐다고 알리고 막대초기화
@@ -138,5 +146,14 @@ public class PlayerController : MonoBehaviour
             array[i] = (int)stack.Pop().type;
         }
         return array;
+    }
+
+    private void FruitParticleActive()
+    {
+        fruitParticle.SetActive(false);
+    }
+    private void BombParticleActive()
+    {
+        bombParticle.SetActive(false);
     }
 }
