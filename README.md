@@ -3,7 +3,7 @@
 ## 역할분담
 
 김동환 : PM , Scene구성  
-권순성 : Plyaer, Fruit, FruitManager  
+권순성 : Player, Fruit, FruitManager  
 이도현 : GameManager  
 정지엽 : ButtonManager, SoundManager  
 
