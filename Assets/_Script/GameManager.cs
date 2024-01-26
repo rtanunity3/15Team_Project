@@ -17,19 +17,19 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public GameState currentState;
+    [HideInInspector] public GameState currentState;
 
-    public int currentPhase = 1;
-    public int tanghuluMade = 0;
-    public int highScore = 0; // 얘는, PlayerPrefs 또는 json 등의 내용으로 초기화 할 듯
-    public int score = 0;
+    [HideInInspector] public int currentPhase = 1;
+    [HideInInspector] public int tanghuluMade = 0;
+    [HideInInspector] public int highScore = 0; // PlayerPrefs로 초기화
+    [HideInInspector] public int score = 0;
 
     private int minFruitType = 0;
     private int maxFruitType = 2;
     int[] targetTanghulu = new int[3];
 
     FruitsType[] fruitTypes;
-    [SerializeField] private Sprite[] fruitSprites;
+    private Sprite[] fruitSprites;
     private Sprite stickSprites;
     private Vector3[] positions; // 프리팹이 생성될 위치
 
@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public float PlaySound = 0.1f; // 게임 효과음
 
     public float limitTime = 60f;   // 게임 제한시간
+    [HideInInspector] public bool isStarted; // 카운트 도중 일시정지-이어하기 시 시간 흐르는 버그 해결 용도
 
     private void Awake()
     {
@@ -153,7 +154,8 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         UIManager.Instance.TogglePausedPanel(); // 일시 정지 메뉴 토글
-        ChangeState(GameState.Playing);
+        if (!isStarted) ChangeState(GameState.CountDown);
+        else ChangeState(GameState.Playing);
     }
     // 다시하기 버튼이 눌렸을 때, ButtonManager에서 호출
     public void RestartGame()
