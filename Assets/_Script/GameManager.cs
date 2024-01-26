@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateHighScore(); // 최고 점수 업데이트 및 저장
         UIManager.Instance.ToggleResultPanel(); // 게임 오버 UI 활성화
-        ChangeState(GameState.GameOver);
+        Invoke("TimePause", 0.4f);
     }
     // 게임 Quit 메서드. 사용 안해도 되지만 일단 마련
     public void QuitGame()
@@ -377,4 +377,8 @@ public class GameManager : MonoBehaviour
         score = 0;
     }
 
+    private void TimePause()
+    {
+        Time.timeScale = 0;
+    }
 }
