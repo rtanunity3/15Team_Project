@@ -13,12 +13,14 @@ public class PlaySoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        soundSlider.value = eatAudioSource.volume;
+        eatAudioSource.volume = GameManager.Instance.PlaySound;
+        soundSlider.value = GameManager.Instance.PlaySound;
     }
 
     // Update is called once per frame
     void Update()
     {
+        GameManager.Instance.PlaySound = soundSlider.value;
         eatAudioSource.volume = soundSlider.value;
         boomAudioSource.volume = soundSlider.value;
     }
