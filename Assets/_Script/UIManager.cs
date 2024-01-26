@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     //public Text score;
     //public Text countTanghulu;
 
+    public GameObject resultTextObject;
+    public GameObject highScoreTextObject;
     public Text resultHighScore;
     public Text resultScore;
 
@@ -69,6 +71,8 @@ public class UIManager : MonoBehaviour
             //countTanghulu = canvasObject.transform.Find("Menu").transform.Find("CountUI").transform.Find("CurrentScore").GetComponent<Text>();
 
             resultUI = canvasObject.transform.Find("ResultUI").gameObject.GetComponent<Animator>();
+            resultTextObject = canvasObject.transform.Find("ResultUI").transform.Find("ResultText").gameObject;
+            highScoreTextObject = canvasObject.transform.Find("ResultUI").transform.Find("ResultTextHighScore").gameObject;
             resultScore = canvasObject.transform.Find("ResultUI").transform.Find("ScoreText").GetComponent<Text>();
             resultHighScore = canvasObject.transform.Find("ResultUI").transform.Find("HighScoreText").GetComponent<Text>();
         }
