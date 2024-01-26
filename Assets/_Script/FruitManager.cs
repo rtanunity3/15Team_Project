@@ -18,6 +18,8 @@ public class FruitManager : MonoBehaviour
 {
     [SerializeField] private GameObject stick;
     [SerializeField] private GameObject[] fruitPrefabs;
+
+    // TODO : 카운트다운 UI작업에 따라 수정
     [SerializeField] private Text countdownText;
 
     private List<GameObject>[] objectPool;
@@ -57,6 +59,7 @@ public class FruitManager : MonoBehaviour
 
         // TODO: UI 작업 따라서 변경
         countdownText.text = "목표";
+        //countdownText.gameObject.SetActive(false);
 
 
         // 게임 실행
