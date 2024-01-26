@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     // 데이터나 기타 변수 작성
     public int PhaseTwo = 4;
     public int PhaseThree = 7;
+    public float BGMSound = 0.1f; // 게임 배경음
+    public float PlaySound = 0.1f; // 게임 효과음
 
     private void Awake()
     {

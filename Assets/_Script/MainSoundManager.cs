@@ -11,7 +11,8 @@ public class MainSoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        soundSlider.value = audioSource.volume;
+        audioSource.volume = GameManager.Instance.BGMSound;
+        soundSlider.value = GameManager.Instance.BGMSound;
         audioSource.clip = bgmusic;
         audioSource.Play();
     }
@@ -19,6 +20,7 @@ public class MainSoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameManager.Instance.BGMSound = soundSlider.value;
         audioSource.volume = soundSlider.value;
     }
 }
