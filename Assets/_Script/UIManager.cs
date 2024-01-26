@@ -117,14 +117,14 @@ public class UIManager : MonoBehaviour
     {
         resultUI.SetTrigger("GameOver");
     }
-    public void setCurrentScore()
-    {
-        score.text = "현재 점수 " + GameManager.Instance.score.ToString();
-    }
-    public void setResultHighScore()
-    {
-        resultHighScore.text = "최고 점수 " + GameManager.Instance.highScore.ToString();
-    }
+    //public void setCurrentScore()
+    //{
+    //    score.text = "현재 점수 " + GameManager.Instance.score.ToString();
+    //}
+    //public void setResultHighScore()
+    //{
+    //    resultHighScore.text = "최고 점수 " + GameManager.Instance.highScore.ToString();
+    //}
     //public void setCount(int n)
     //{
     //    count.text = "탕후루\n" + n + " / 10";
