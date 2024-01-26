@@ -79,7 +79,10 @@ public class PlayerController : MonoBehaviour
         if (fruitStack.Count == maxFruitCount)
         {
             int[] playerTanghulu = StackToArray(fruitStack);
-            GameManager.Instance.UpdateTanghuluProgress(playerTanghulu);
+
+            if (GameManager.Instance != null) { GameManager.Instance.UpdateTanghuluProgress(playerTanghulu); }
+            else { Debug.LogWarning("GameManager is Null"); }
+
             Debug.Log($"완료 {playerTanghulu.Length}/{maxFruitCount}");
 
             // TODO : 3개 되자마자 빠른속도로 사라진다. 뭔가 만들었다고 이펙트나 딜레이같은것 넣어야할듯
