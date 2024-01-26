@@ -53,7 +53,7 @@ public class FruitManager : MonoBehaviour
             {
                 countdownText.text = countdownTime.ToString("F0");
             }
-            if(countdownTime == 0)
+            if (countdownTime == 0)
             {
                 countdownText.text = "GO!!";
             }
@@ -106,6 +106,7 @@ public class FruitManager : MonoBehaviour
         int randFruitIndex;
 
         int phase = GameManager.Instance != null ? GameManager.Instance.currentPhase : 1;
+        int z = 0;
         switch (phase)
         {
             case 1:
@@ -113,14 +114,17 @@ public class FruitManager : MonoBehaviour
                 break;
             case 2:
                 randFruitIndex = Random.Range(zero, 6);
+                z = Random.Range(-90, 90);
                 break;
             default:
                 randFruitIndex = Random.Range(zero, 7);
+                z = Random.Range(0, 360);
                 break;
         }
 
         GameObject fruit = GetPooledObject(randFruitIndex) ?? InstantiateFruit(randFruitIndex);
         fruit.transform.position = spawnPosition;
+        fruit.transform.rotation = Quaternion.Euler(0, 0, z);
         fruit.SetActive(true);
     }
 
