@@ -117,7 +117,7 @@ public class UIManager : MonoBehaviour
     {
         score.text = "현재 점수 " + GameManager.Instance.score.ToString();
     }
-    public void setHighScore()
+    public void setResultHighScore()
     {
         resultHighScore.text = "최고 점수 " + GameManager.Instance.highScore.ToString();
     }
