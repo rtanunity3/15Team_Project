@@ -174,6 +174,16 @@ public class GameManager : MonoBehaviour
     // 게임 종료 조건 달성 시, GameManager에서 호출
     public void GameOver()
     {
+        if (highScore < score) // 결과 오브젝트(일단은 텍스트) ON
+        {
+            UIManager.Instance.SetPanelActive(UIManager.Instance.highScoreTextObject, true);
+            UIManager.Instance.SetPanelActive(UIManager.Instance.resultTextObject, false);
+        }
+        else
+        {
+            UIManager.Instance.SetPanelActive(UIManager.Instance.highScoreTextObject, false);
+            UIManager.Instance.SetPanelActive(UIManager.Instance.resultTextObject, true);
+        }
         UpdateHighScore(); // 최고 점수 업데이트 및 저장
         UIManager.Instance.ToggleResultPanel(); // 게임 오버 UI 활성화
         ChangeState(GameState.GameOver);
