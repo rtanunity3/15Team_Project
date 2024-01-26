@@ -18,11 +18,13 @@ public class DisplayMainPanel : MonoBehaviour
     {
         if(GameManager.Instance.currentState == GameState.CountDown)
         {
+            GameManager.Instance.isStarted = false;
             timer = GameManager.Instance.limitTime;
             UpdateMainSceneMenuDisplay();
         }
         else if (GameManager.Instance.currentState == GameState.Playing)
         {
+            GameManager.Instance.isStarted = true;
             timer -= Time.deltaTime;
             timer = Math.Max(timer, 0f);
             UpdateMainSceneMenuDisplay();

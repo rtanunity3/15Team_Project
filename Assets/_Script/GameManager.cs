@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public float PlaySound = 0.1f; // 게임 효과음
 
     public float limitTime = 60f;   // 게임 제한시간
+    [HideInInspector] public bool isStarted; // 카운트 도중 일시정지-이어하기 시 시간 흐르는 버그 해결 용도
 
     private void Awake()
     {
@@ -153,7 +154,8 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         UIManager.Instance.TogglePausedPanel(); // 일시 정지 메뉴 토글
-        ChangeState(GameState.Playing);
+        if (!isStarted) ChangeState(GameState.CountDown);
+        else ChangeState(GameState.Playing);
     }
     // 다시하기 버튼이 눌렸을 때, ButtonManager에서 호출
     public void RestartGame()
