@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
 
     private Animator resultUI;
 
+    public AudioClip buttonClip;
+    public AudioSource buttonAudioSource; // UI 버튼클릭 사운드
+
     private void Awake()
     {
         if (Instance == null)
@@ -36,6 +39,11 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Update()
+    {
+        buttonAudioSource.volume = GameManager.Instance.PlaySound;
     }
 
     private void Start()
@@ -102,24 +110,29 @@ public class UIManager : MonoBehaviour
     // 각 패널을 위한 활성화/비활성화 메서드
     public void ToggleSettingsPanel()
     {
+        buttonAudioSource.PlayOneShot(buttonClip);
         SetPanelActive(settingsPanel, !settingsPanel.activeSelf);
     }
     public void ToggleSettingsPanel(bool isActive)
     {
+        buttonAudioSource.PlayOneShot(buttonClip);
         SetPanelActive(settingsPanel, isActive);
     }
 
     public void TogglePausedPanel()
     {
+        buttonAudioSource.PlayOneShot(buttonClip);
         SetPanelActive(pausedPanel, !pausedPanel.activeSelf);
     }
     public void TogglePausedPanel(bool isActive)
     {
+        buttonAudioSource.PlayOneShot(buttonClip);
         SetPanelActive(pausedPanel, isActive);
     }
 
     public void ToggleResultPanel()
     {
+        buttonAudioSource.PlayOneShot(buttonClip);
         resultUI.SetTrigger("GameOver");
     }
 

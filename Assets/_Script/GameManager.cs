@@ -39,6 +39,15 @@ public class GameManager : MonoBehaviour
     public float BGMSound = 0.1f; // 게임 배경음
     public float PlaySound = 0.1f; // 게임 효과음
 
+    public AudioClip startCountClip;
+    public AudioSource startCountAudioSource; // 게임시작 카운트다운 사운드
+
+    public AudioClip gameClearClip;
+    public AudioSource gameClearAudioSource; // 게임 클리어 사운드
+
+    public AudioClip highScoreGameClearClip;
+    public AudioSource highScoreGameClearAudioSource; // 게임 클리어(하이스코어 달성시) 사운드
+
     public float limitTime = 60f;   // 게임 제한시간
     [HideInInspector] public bool isStarted; // 카운트 도중 일시정지-이어하기 시 시간 흐르는 버그 해결 용도
 
@@ -70,6 +79,13 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        startCountAudioSource.volume = PlaySound;
+        gameClearAudioSource.volume = PlaySound;
+        highScoreGameClearAudioSource.volume = PlaySound;
+    }
+
     public void ChangeState(GameState newState)
     {
         currentState = newState;
@@ -83,6 +99,7 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.CountDown:
+                startCountAudioSource.PlayOneShot(startCountClip); // 사운드 재생
                 Time.timeScale = 1;
                 break;
 
@@ -176,11 +193,13 @@ public class GameManager : MonoBehaviour
     {
         if (highScore < score) // 결과 오브젝트(일단은 텍스트) ON
         {
+            highScoreGameClearAudioSource.PlayOneShot(highScoreGameClearClip); // 사운드 재생
             UIManager.Instance.SetPanelActive(UIManager.Instance.highScoreTextObject, true);
             UIManager.Instance.SetPanelActive(UIManager.Instance.resultTextObject, false);
         }
         else
         {
+            gameClearAudioSource.PlayOneShot(gameClearClip); // 사운드 재생
             UIManager.Instance.SetPanelActive(UIManager.Instance.highScoreTextObject, false);
             UIManager.Instance.SetPanelActive(UIManager.Instance.resultTextObject, true);
         }
