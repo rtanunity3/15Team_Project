@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/_MainScene.unity
     guid: 91ffcd8053948f145b84c00da2f427ed
+  - enabled: 1
+    path: Assets/Scenes/Feat_AllSoundUpdate_TitleScene.unity
+    guid: f0c85e00d2cd6d04bbe61963c831b56c
+  - enabled: 1
+    path: Assets/Scenes/Feat_AllSoundUpdate_MainScene.unity
+    guid: b0be9f644b312824d9f571d1c4843676
   m_configObjects: {}

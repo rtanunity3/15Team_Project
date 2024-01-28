@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadMainSceneAndInitialize()
     {
         // 비동기 씬 로딩 시작
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("_MainScene");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Feat_AllSoundUpdate_MainScene");
 
         // 로딩 완료까지 대기
         while (!asyncLoad.isDone)
@@ -221,12 +221,12 @@ public class GameManager : MonoBehaviour
     // MainScene 로드
     public void LoadMainScene()
     {
-        SceneManager.LoadScene("_MainScene");
+        SceneManager.LoadScene("Feat_AllSoundUpdate_MainScene");
     }
     // TitleScene 로드
     public void LoadTitleScene()
     {
-        SceneManager.LoadScene("_TitleScene");
+        SceneManager.LoadScene("Feat_AllSoundUpdate_TitleScene");
     }
 
     // 게임 재시작을 위한 게임 데이터 초기화 메서드
