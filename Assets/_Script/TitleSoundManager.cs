@@ -5,13 +5,19 @@ using UnityEngine.UI;
 
 public class TitleSoundManager : MonoBehaviour
 {
-    public AudioSource audioSource;
-    public AudioClip bgmusic;
     public Slider soundSlider;
+
+    public AudioClip bgmusic;
+    public AudioSource audioSource; // 배경음악
+
     // Start is called before the first frame update
     void Start()
     {
-        audioSource.volume = GameManager.Instance.BGMSound;
+        soundSlider.onValueChanged.AddListener((float val) =>
+        {
+            GameManager.Instance.BGMSound = val;
+            audioSource.volume = val;
+        });
         soundSlider.value = GameManager.Instance.BGMSound;
         audioSource.clip = bgmusic;
         audioSource.Play();
@@ -20,7 +26,6 @@ public class TitleSoundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GameManager.Instance.BGMSound = soundSlider.value;
-        audioSource.volume = soundSlider.value;
+
     }
 }

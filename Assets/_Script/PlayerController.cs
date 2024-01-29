@@ -24,10 +24,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject fruitParticle;
     [SerializeField] private GameObject bombParticle;
 
+    public AudioClip eatClip;
+    public AudioSource eatAudioSource; // 과일획득 사운드
+
+    public AudioClip boomClip;
+    public AudioSource boomAudioSource; // 폭탄획득 사운드
+
+    public AudioClip menuCompleteClip;
+    public AudioSource menuCompleteAudioSource; // 탕후루 메뉴 완성 사운드
+
     private void Awake()
     {
         _camera = Camera.main;
         _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        float val = GameManager.Instance.PlaySound;
+        eatAudioSource.volume = val;
+        boomAudioSource.volume = val;
+        menuCompleteAudioSource.volume = val;
     }
 
     private void FixedUpdate()
@@ -72,6 +89,7 @@ public class PlayerController : MonoBehaviour
         Fruit fruit = fruitObj.GetComponent<Fruit>();
         if (fruit.type == FruitsType.Bomb)
         {
+            boomAudioSource.PlayOneShot(boomClip); // 사운드 재생
             fruit.gameObject.SetActive(false); // 폭탄은 무조건 숨기기
             bombParticle.SetActive(true);
             PopFruit();
@@ -79,6 +97,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            eatAudioSource.PlayOneShot(eatClip); // 사운드 재생
             fruitParticle.SetActive(true);
             PushFruit(fruit);
             Invoke("FruitParticleActive", .3f);
@@ -87,6 +106,7 @@ public class PlayerController : MonoBehaviour
         // 스택이 풀로 차면 완료됐다고 알리고 막대초기화
         if (fruitStack.Count == maxFruitCount)
         {
+            menuCompleteAudioSource.PlayOneShot(menuCompleteClip); // 사운드 재생
             int[] playerTanghulu = StackToArray(fruitStack);
 
             if (GameManager.Instance != null) { GameManager.Instance.UpdateTanghuluProgress(playerTanghulu); }
