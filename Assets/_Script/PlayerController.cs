@@ -37,16 +37,16 @@ public class PlayerController : MonoBehaviour
         MoveStick(lastMousePosition);
     }
 
-    public void OnTouchPosition(InputValue value)
-    {
-        Vector2 targetPos = _camera.ScreenToWorldPoint(value.Get<Vector2>());
-        targetPos.x = Mathf.Clamp(targetPos.x, -2.6f, 2.6f);
-        targetPos.y = fixedYPosition; // y축 고정
-        if (targetPos != lastMousePosition)
-        {
-            lastMousePosition = targetPos;
-        }
-    }
+    //public void OnTouchPosition(InputValue value)
+    //{
+    //    Vector2 targetPos = _camera.ScreenToWorldPoint(value.Get<Vector2>());
+    //    targetPos.x = Mathf.Clamp(targetPos.x, -2.6f, 2.6f);
+    //    targetPos.y = fixedYPosition; // y축 고정
+    //    if (targetPos != lastMousePosition)
+    //    {
+    //        lastMousePosition = targetPos;
+    //    }
+    //}
 
     public void OnAim(InputValue value)
     {
