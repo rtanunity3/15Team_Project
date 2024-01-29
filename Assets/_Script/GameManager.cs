@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public GameState currentState;
 
-    [HideInInspector] public int currentPhase = 1;
+    public int currentPhase = 1;
     [HideInInspector] public int tanghuluMade = 0;
     [HideInInspector] public int highScore = 0; // PlayerPrefs로 초기화
     [HideInInspector] public int score = 0;
@@ -35,12 +35,12 @@ public class GameManager : MonoBehaviour
     private Vector3[] positions; // 프리팹이 생성될 위치
 
     // 데이터나 기타 변수 작성
-    public int PhaseTwo = 4;
-    public int PhaseThree = 7;
     public float BGMSound = 0.1f; // 게임 배경음
     public float PlaySound = 0.1f; // 게임 효과음
 
     public float limitTime = 60f;   // 게임 제한시간
+    public int PhaseTwo = 9;
+    public int PhaseThree = 19;
     [HideInInspector] public bool isStarted; // 카운트 도중 일시정지-이어하기 시 시간 흐르는 버그 해결 용도
 
     private void Awake()
@@ -120,7 +120,6 @@ public class GameManager : MonoBehaviour
         // 씬 로딩 완료 후 초기화 작업 수행
         ChangeState(GameState.CountDown);
         soundManager = GameObject.Find("Manager").transform.Find("PlaySoundManager").gameObject.GetComponent<PlaySoundManager>();
-        //UIManager.Instance.UpdateMainSceneMenuDisplay();
         GenerateTargetTanghulu();
     }
 
@@ -337,35 +336,19 @@ public class GameManager : MonoBehaviour
 
     }
 
-    // Player에서 과일 세개 쌓이면 매개변수로 넣어 호출 바람. 점수반영, 난이도 관리, 종료 조건 검사 수행
-    // 매개변수 형식에 관해서는 추후 맞춰서 수정
+    // Player에서 과일 세개 쌓이면 매개변수로 넣어 호출. 점수반영, 난이도 관리, 종료 조건 검사 수행
     public void UpdateTanghuluProgress(int[] playerTanghulu)
     {
         tanghuluMade++;
         CalculateAndUpdateScore(playerTanghulu); // 플레이어 탕후루와 목표 탕후루를 비교하고 점수를 반영
-        if (tanghuluMade == PhaseTwo || tanghuluMade == PhaseThree)
-        {
-            IncreaseDifficulty(); // 난이도 상승
-        }
-        // 또한 종료 조건 만족 시 결과 관련 메서드
-        //if (tanghuluMade >= 10)
-        //{
-        //    GameOver();
-        //}
         GenerateTargetTanghulu();
-
-        //UIManager.Instance.UpdateMainSceneMenuDisplay();
         Debug.Log("현재 점수: " + score + " / 현재 난이도: " + currentPhase);
     }
-    public void UpdateTanghuluProgress() // 매개변수의 전달이 없을 경우, -1,-1,-1 전달
-    {
-        UpdateTanghuluProgress(new int[] { -1, -1, -1 });
-    }
 
-    // 난이도 상승
-    private void IncreaseDifficulty()
+    // 난이도 조정
+    public void SetDifficulty(int num)
     {
-        currentPhase++;
+        currentPhase = num;
     }
 
     // 점수 계산 및 업데이트
@@ -396,8 +379,6 @@ public class GameManager : MonoBehaviour
                 break;
                 // 일치하는 개수가 0개인 경우 점수 증가 없음
         }
-        //UIManager.Instance.setCurrentScore();
-        //UIManager.Instance.setCount(tanghuluMade);
     }
 
     // 최고 점수 업데이트 및 저장
@@ -431,6 +412,5 @@ public class GameManager : MonoBehaviour
     {
         score += amount;
         score = Mathf.Max(score, 0);
-        //UIManager.Instance.UpdateMainSceneMenuDisplay();
     }
 }
