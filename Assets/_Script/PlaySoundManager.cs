@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 public class PlaySoundManager : MonoBehaviour
 {
     public Slider soundSlider;
-    
+
     public AudioSource effectSound;
     public AudioClip buttonSound;
     public AudioClip fruitSound;
@@ -47,8 +48,15 @@ public class PlaySoundManager : MonoBehaviour
 
     public void clearSoundPlay()
     {
-        effectSound.clip = countSound;
-        effectSound.Play();
+        try
+        {
+            effectSound.clip = countSound;
+            effectSound.Play();
+        }
+        catch
+        {
+            Debug.Log("error");
+        }
     }
 
     public void highClearSoundPlay()
