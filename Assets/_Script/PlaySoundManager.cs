@@ -9,6 +9,7 @@ public class PlaySoundManager : MonoBehaviour
     public Slider soundSlider;
 
     public AudioSource effectSound;
+
     public AudioClip buttonSound;
     public AudioClip fruitSound;
     public AudioClip bombSound;
