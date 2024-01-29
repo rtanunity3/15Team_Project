@@ -114,14 +114,14 @@ public class FruitManager : MonoBehaviour
         switch (phase)
         {
             case 1:
-                randFruitIndex = Random.Range(zero, 5);
+                randFruitIndex = Random.Range(zero, 10);
                 break;
             case 2:
-                randFruitIndex = Random.Range(zero, 6);
+                randFruitIndex = Random.Range(zero, 13);
                 z = Random.Range(-90, 90);
                 break;
             default:
-                randFruitIndex = Random.Range(zero, 7);
+                randFruitIndex = Random.Range(zero, 14);
                 z = Random.Range(0, 360);
                 break;
         }
