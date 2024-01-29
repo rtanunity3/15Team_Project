@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.ParticleSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -32,13 +32,20 @@ public class PlayerController : MonoBehaviour
         soundManager = GameObject.Find("Manager").transform.Find("PlaySoundManager").gameObject.GetComponent<PlaySoundManager>();
     }
 
-    private void Update()
-    {
-    }
-
     private void FixedUpdate()
     {
         MoveStick(lastMousePosition);
+    }
+
+    public void OnTouchPosition(InputValue value)
+    {
+        Vector2 targetPos = _camera.ScreenToWorldPoint(value.Get<Vector2>());
+        targetPos.x = Mathf.Clamp(targetPos.x, -2.6f, 2.6f);
+        targetPos.y = fixedYPosition; // y축 고정
+        if (targetPos != lastMousePosition)
+        {
+            lastMousePosition = targetPos;
+        }
     }
 
     public void OnAim(InputValue value)
@@ -50,7 +57,6 @@ public class PlayerController : MonoBehaviour
         {
             lastMousePosition = targetPos;
         }
-        MoveStick(targetPos);
     }
 
     private void MoveStick(Vector2 targetPos)

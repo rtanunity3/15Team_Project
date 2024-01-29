@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         // 싱글톤 구현
         if (Instance == null)
         {
