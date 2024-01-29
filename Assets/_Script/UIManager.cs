@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public Text titleHighScore;
 
     //public Text score;
+    //public Text highscore;
     //public Text countTanghulu;
 
     public GameObject resultTextObject;
@@ -23,9 +24,6 @@ public class UIManager : MonoBehaviour
     public Text resultScore;
 
     private Animator resultUI;
-
-    public AudioClip buttonClip;
-    public AudioSource buttonAudioSource; // UI 버튼클릭 사운드
 
     private void Awake()
     {
@@ -39,11 +37,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Update()
-    {
-        buttonAudioSource.volume = GameManager.Instance.PlaySound;
     }
 
     private void Start()
@@ -72,11 +65,8 @@ public class UIManager : MonoBehaviour
         {
             GameObject canvasObject = GameObject.Find("Canvas");
             pausedPanel = canvasObject.transform.Find("PauseUI").gameObject;
-            settingsPanel = GameObject.Find("SettingUI");
+            settingsPanel = canvasObject.transform.Find("PauseUI").transform.Find("SettingUI").gameObject;
 
-            //score = canvasObject.transform.Find("Menu").transform.Find("ScoreUI").transform.Find("CurrentScore").GetComponent<Text>();
-            //highscore = canvasObject.transform.Find("Menu").transform.Find("ScoreUI").transform.Find("HighScore").GetComponent<Text>();
-            //countTanghulu = canvasObject.transform.Find("Menu").transform.Find("CountUI").transform.Find("CurrentScore").GetComponent<Text>();
 
             resultUI = canvasObject.transform.Find("ResultUI").gameObject.GetComponent<Animator>();
             resultTextObject = canvasObject.transform.Find("ResultUI").transform.Find("ResultText").gameObject;
@@ -110,29 +100,24 @@ public class UIManager : MonoBehaviour
     // 각 패널을 위한 활성화/비활성화 메서드
     public void ToggleSettingsPanel()
     {
-        buttonAudioSource.PlayOneShot(buttonClip);
         SetPanelActive(settingsPanel, !settingsPanel.activeSelf);
     }
     public void ToggleSettingsPanel(bool isActive)
     {
-        buttonAudioSource.PlayOneShot(buttonClip);
         SetPanelActive(settingsPanel, isActive);
     }
 
     public void TogglePausedPanel()
     {
-        buttonAudioSource.PlayOneShot(buttonClip);
         SetPanelActive(pausedPanel, !pausedPanel.activeSelf);
     }
     public void TogglePausedPanel(bool isActive)
     {
-        buttonAudioSource.PlayOneShot(buttonClip);
         SetPanelActive(pausedPanel, isActive);
     }
 
     public void ToggleResultPanel()
     {
-        buttonAudioSource.PlayOneShot(buttonClip);
         resultUI.SetTrigger("GameOver");
     }
 

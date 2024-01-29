@@ -264,11 +264,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e780201e0fd004eb6fdadf55767627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eatClip: {fileID: 8300000, guid: 56e2caaf5a7888245bcbf06b45cda95c, type: 3}
-  eatAudioSource: {fileID: 6680734}
-  boomClip: {fileID: 8300000, guid: ae7a2a49a7426e04fb10aa7fe018e998, type: 3}
-  boomAudioSource: {fileID: 6680734}
   soundSlider: {fileID: 649722796}
+  effectSound: {fileID: 6680734}
+  buttonSound: {fileID: 8300000, guid: 25035d60548aa7e4d90f5dcf5385c15f, type: 3}
+  fruitSound: {fileID: 8300000, guid: 1736f88e873c1a84faf16a9f995505d2, type: 3}
+  bombSound: {fileID: 8300000, guid: b1322a4452a12d9428681cd9a3ab65db, type: 3}
+  clearSound: {fileID: 8300000, guid: 13be5e3972987c842b64e82afa59301e, type: 3}
+  highClearSound: {fileID: 8300000, guid: 82ccb64348b260d469949051dd3c13bc, type: 3}
+  countSound: {fileID: 8300000, guid: 7e55ce280b734694193026ac55b57fdf, type: 3}
+  startSound: {fileID: 8300000, guid: d3808360eb05f574b8171b6cd1f0744d, type: 3}
+  makeSound: {fileID: 8300000, guid: 27f4f6f625292d248ba3baccc1d86c19, type: 3}
 --- !u!1 &106930722
 GameObject:
   m_ObjectHideFlags: 0
@@ -2472,9 +2477,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30a03fe9c0e9e724ca6e20f18ca3d83e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 1190365728}
-  bgmusic: {fileID: 8300000, guid: e95ffa65c37314548b74c1ae830c107a, type: 3}
   soundSlider: {fileID: 2102824865}
+  bgmusic: {fileID: 8300000, guid: e95ffa65c37314548b74c1ae830c107a, type: 3}
+  audioSource: {fileID: 1190365728}
 --- !u!1 &1211761019
 GameObject:
   m_ObjectHideFlags: 0
@@ -3100,6 +3105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e52d02f3f1eda964f948317bb5ac7972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundManager: {fileID: 6680735}
 --- !u!1 &1428993567
 GameObject:
   m_ObjectHideFlags: 0
@@ -3819,6 +3825,7 @@ MonoBehaviour:
   - {fileID: 1230613128980675943, guid: 3036bc84987f1b14492c4f83a3b80227, type: 3}
   - {fileID: 1230613128980675943, guid: 24730b2acde454c43a9fd88dc502e2ec, type: 3}
   - {fileID: 1230613128980675943, guid: 91d8331ce0176f84e946820ed58d92b7, type: 3}
+  soundManager: {fileID: 6680735}
   countdownText: {fileID: 1846275609}
 --- !u!4 &1713063433
 Transform:

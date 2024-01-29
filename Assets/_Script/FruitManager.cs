@@ -19,6 +19,8 @@ public class FruitManager : MonoBehaviour
     [SerializeField] private GameObject stick;
     [SerializeField] private GameObject[] fruitPrefabs;
 
+    public PlaySoundManager soundManager;
+
     // TODO : 카운트다운 UI작업에 따라 수정
     [SerializeField] private Text countdownText;
 
@@ -51,10 +53,12 @@ public class FruitManager : MonoBehaviour
         {
             if (countdownText != null)
             {
+                soundManager.countSoundPlay();
                 countdownText.text = countdownTime.ToString("F0");
             }
             if (countdownTime == 0)
             {
+                soundManager.startSoundPlay();
                 countdownText.text = "GO!!";
             }
             yield return new WaitForSeconds(1f); // 1초 대기

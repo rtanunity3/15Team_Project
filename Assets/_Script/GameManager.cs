@@ -16,6 +16,7 @@ public enum GameState
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public PlaySoundManager soundManager;
 
     [HideInInspector] public GameState currentState;
 
@@ -38,15 +39,6 @@ public class GameManager : MonoBehaviour
     public int PhaseThree = 7;
     public float BGMSound = 0.1f; // 게임 배경음
     public float PlaySound = 0.1f; // 게임 효과음
-
-    public AudioClip startCountClip;
-    public AudioSource startCountAudioSource; // 게임시작 카운트다운 사운드
-
-    public AudioClip gameClearClip;
-    public AudioSource gameClearAudioSource; // 게임 클리어 사운드
-
-    public AudioClip highScoreGameClearClip;
-    public AudioSource highScoreGameClearAudioSource; // 게임 클리어(하이스코어 달성시) 사운드
 
     public float limitTime = 60f;   // 게임 제한시간
     [HideInInspector] public bool isStarted; // 카운트 도중 일시정지-이어하기 시 시간 흐르는 버그 해결 용도
@@ -74,17 +66,6 @@ public class GameManager : MonoBehaviour
         // 게임 상태를 MainMenu로 초기화
         ChangeState(GameState.MainMenu);
     }
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-        startCountAudioSource.volume = PlaySound;
-        gameClearAudioSource.volume = PlaySound;
-        highScoreGameClearAudioSource.volume = PlaySound;
-    }
 
     public void ChangeState(GameState newState)
     {
@@ -99,7 +80,6 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.CountDown:
-                startCountAudioSource.PlayOneShot(startCountClip); // 사운드 재생
                 Time.timeScale = 1;
                 break;
 
@@ -128,7 +108,7 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadMainSceneAndInitialize()
     {
         // 비동기 씬 로딩 시작
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Feat_AllSoundUpdate_MainScene");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("_MainScene");
 
         // 로딩 완료까지 대기
         while (!asyncLoad.isDone)
@@ -138,6 +118,7 @@ public class GameManager : MonoBehaviour
 
         // 씬 로딩 완료 후 초기화 작업 수행
         ChangeState(GameState.CountDown);
+        soundManager = GameObject.Find("Manager").transform.Find("PlaySoundManager").gameObject.GetComponent<PlaySoundManager>();
         //UIManager.Instance.UpdateMainSceneMenuDisplay();
         GenerateTargetTanghulu();
     }
@@ -193,13 +174,13 @@ public class GameManager : MonoBehaviour
     {
         if (highScore < score) // 결과 오브젝트(일단은 텍스트) ON
         {
-            highScoreGameClearAudioSource.PlayOneShot(highScoreGameClearClip); // 사운드 재생
+            soundManager.highClearSoundPlay();
             UIManager.Instance.SetPanelActive(UIManager.Instance.highScoreTextObject, true);
             UIManager.Instance.SetPanelActive(UIManager.Instance.resultTextObject, false);
         }
         else
         {
-            gameClearAudioSource.PlayOneShot(gameClearClip); // 사운드 재생
+            soundManager.clearSoundPlay();
             UIManager.Instance.SetPanelActive(UIManager.Instance.highScoreTextObject, false);
             UIManager.Instance.SetPanelActive(UIManager.Instance.resultTextObject, true);
         }
@@ -221,12 +202,12 @@ public class GameManager : MonoBehaviour
     // MainScene 로드
     public void LoadMainScene()
     {
-        SceneManager.LoadScene("Feat_AllSoundUpdate_MainScene");
+        SceneManager.LoadScene("_MainScene");
     }
     // TitleScene 로드
     public void LoadTitleScene()
     {
-        SceneManager.LoadScene("Feat_AllSoundUpdate_TitleScene");
+        SceneManager.LoadScene("_TitleScene");
     }
 
     // 게임 재시작을 위한 게임 데이터 초기화 메서드
