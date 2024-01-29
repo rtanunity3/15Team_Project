@@ -20,6 +20,7 @@ public class DisplayMainPanel : MonoBehaviour
         {
             GameManager.Instance.isStarted = false;
             timer = GameManager.Instance.limitTime;
+            GameManager.Instance.SetDifficulty(1);
             UpdateMainSceneMenuDisplay();
         }
         else if (GameManager.Instance.currentState == GameState.Playing)
@@ -27,6 +28,16 @@ public class DisplayMainPanel : MonoBehaviour
             GameManager.Instance.isStarted = true;
             timer -= Time.deltaTime;
             timer = Math.Max(timer, 0f);
+
+            // 페이즈 전환 로직
+            float runningTime = GameManager.Instance.limitTime - timer;
+            if (runningTime < GameManager.Instance.PhaseTwo)
+                GameManager.Instance.SetDifficulty(1);
+            if (runningTime > GameManager.Instance.PhaseTwo && runningTime < GameManager.Instance.PhaseThree)
+                GameManager.Instance.SetDifficulty(2);
+            else if (runningTime > GameManager.Instance.PhaseThree)
+                GameManager.Instance.SetDifficulty(3);
+
             UpdateMainSceneMenuDisplay();
         }
 

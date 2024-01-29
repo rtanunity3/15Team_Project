@@ -14,10 +14,6 @@ public class UIManager : MonoBehaviour
 
     public Text titleHighScore;
 
-    //public Text score;
-    //public Text highscore;
-    //public Text countTanghulu;
-
     public GameObject resultTextObject;
     public GameObject highScoreTextObject;
     public Text resultHighScore;
@@ -30,7 +26,7 @@ public class UIManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);// root GameObjects 에만 사용 가능하다고 경고 뜨긴 했는데 상관은 없을듯. 경고가 신경쓰이면 오브젝트 서로 분리해도 됨.
+            DontDestroyOnLoad(gameObject);
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
@@ -120,11 +116,4 @@ public class UIManager : MonoBehaviour
     {
         resultUI.SetTrigger("GameOver");
     }
-
-    //public void UpdateMainSceneMenuDisplay()
-    //{
-    //    highscore.text = "최고점수 " + GameManager.Instance.highScore.ToString();
-    //    score.text = "현재점수 " + GameManager.Instance.score.ToString();
-    //    countTanghulu.text = "탕후루\n" + GameManager.Instance.tanghuluMade.ToString() + " / 10";
-    //}
 }
