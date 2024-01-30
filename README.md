@@ -9,10 +9,10 @@
 
 ## 역할분담
 
-김동환 : PM , Scene구성  
+김동환 : PM , Scene구성(오브젝트 배치), 효과음 설정  
 권순성 : Player, Fruit, FruitManager  
 이도현 : GameManager  
-정지엽 : ButtonManager, SoundManager  
+정지엽 : BGM 설정, 환경설정 기능 구현  
 
 
 ## Git 커밋 규칙
