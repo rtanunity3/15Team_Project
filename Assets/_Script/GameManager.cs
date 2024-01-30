@@ -272,22 +272,30 @@ public class GameManager : MonoBehaviour
         }
         // 캔버스
         Canvas canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+
         // 'TargetTanghulu' GameObject 생성 및 캔버스의 자식으로 설정
         GameObject targetTanghuluObject = new GameObject("TargetTanghulu");
-        targetTanghuluObject.transform.SetParent(canvas.transform, false);
+        //targetTanghuluObject.transform.SetParent(canvas.transform, false);
+        Transform imageTransform = GameObject.Find("TanghuluUI").transform.Find("Image");
+        targetTanghuluObject.transform.SetParent(imageTransform, false);
 
         // "TanghuluUI" 기점으로 목표 탕후루를 표시할 위치를 지정
-        RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
-        float posX = canvasRectTransform.sizeDelta.x / 2;
-        float posY = canvasRectTransform.sizeDelta.y / 2;
+        //RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
+        //float posX = canvasRectTransform.sizeDelta.x / 2;
+        //float posY = canvasRectTransform.sizeDelta.y / 2;
         if (positions == null || positions.Length == 0)
         {
-            Transform tanghuluUIPosition = GameObject.Find("TanghuluUI").transform.Find("Image");
+            //Transform tanghuluUIPosition = GameObject.Find("TanghuluUI").transform.Find("Image");
             positions = new Vector3[]
+            //{
+            //    new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY - 50, tanghuluUIPosition.position.z),
+            //    new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY + 10, tanghuluUIPosition.position.z),
+            //    new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY + 70, tanghuluUIPosition.position.z)
+            //};
             {
-                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY - 50, tanghuluUIPosition.position.z),
-                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY + 10, tanghuluUIPosition.position.z),
-                new Vector3(tanghuluUIPosition.position.x - posX, tanghuluUIPosition.position.y - posY + 70, tanghuluUIPosition.position.z)
+                new Vector3(0, -50, 0),
+                new Vector3(0, 10, 0),
+                new Vector3(0, 70, 0)
             };
         }
 
